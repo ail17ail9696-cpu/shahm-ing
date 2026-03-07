@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAHM ING | الشد الذكي</title>
+    <style>
+        :root { --neon-blue: #00d2ff; --ing-gold: #ffcc00; --dark-bg: #050a0f; }
+        body { background-color: var(--dark-bg); color: white; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { background: #0f1720; padding: 25px; border-radius: 20px; width: 90%; max-width: 400px; border: 1px solid var(--neon-blue); text-align: center; box-shadow: 0 0 20px rgba(0,210,255,0.2); }
+        h1 { color: var(--neon-blue); margin-bottom: 5px; font-weight: 900; }
+        h1 span { color: var(--ing-gold); }
+        p { color: #8899a6; font-size: 12px; margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin-top: 10px; background: #1a242f; border: 1px solid #2f3336; border-radius: 12px; color: white; outline: none; box-sizing: border-box; text-align: right; font-family: 'Cairo'; }
+        .btn-send { background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white; padding: 15px; border: none; border-radius: 30px; cursor: pointer; width: 100%; font-weight: bold; font-size: 18px; margin-top: 20px; }
+        .btn-clear { background: transparent; color: #ff4b2b; border: 1px solid #ff4b2b; padding: 8px; border-radius: 20px; cursor: pointer; width: 60%; font-size: 12px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SHAHM <span>ING</span></h1>
+        <p>نظام الشد وحفظ البيانات التلقائي</p>
+
+        <input type="text" id="subject" placeholder="موضوع الرسالة" oninput="saveData()">
+        <textarea id="klisha" rows="6" placeholder="اكتب الكليشة هنا..." oninput="saveData()"></textarea>
+        
+        <button class="btn-send" onclick="openGmail()">فتح الجيميل وإرسال 🚀</button>
+        
+        <button class="btn-clear" onclick="clearData()">مسح البيانات المحفوظة 🗑️</button>
+
+        <p style="margin-top: 20px; font-size: 10px;">بواسطة: SHAHM ING</p>
+    </div>
+
+    <script>
+        // أول ما يفتح الموقع، يحمل البيانات المحفوظة
+        window.onload = function() {
+            if (localStorage.getItem("shahm_subject")) {
+                document.getElementById("subject").value = localStorage.getItem("shahm_subject");
+            }
+            if (localStorage.getItem("shahm_klisha")) {
+                document.getElementById("klisha").value = localStorage.getItem("shahm_klisha");
+            }
+        };
+
+        // وظيفة حفظ البيانات عند كل حرف يكتبه المستخدم
+        function saveData() {
+            const subject = document.getElementById("subject").value;
+            const klisha = document.getElementById("klisha").value;
+            localStorage.setItem("shahm_subject", subject);
+            localStorage.setItem("shahm_klisha", klisha);
+        }
+
+        // وظيفة مسح البيانات
+        function clearData() {
+            if (confirm("هل تريد مسح جميع البيانات المكتوبة؟")) {
+                localStorage.removeItem("shahm_subject");
+                localStorage.removeItem("shahm_klisha");
+                document.getElementById("subject").value = "";
+                document.getElementById("klisha").value = "";
+            }
+        }
+
+        function openGmail() {
+            const supportEmail = "support@telegram.org";
+            const subject = document.getElementById('subject').value || "Support Request";
+            const body = document.getElementById('klisha').value;
+
+            const mailtoLink = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+
+</body>
+</html>
