@@ -3,208 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHAHM ING PRO | نظام الشد المطور</title>
+    <title>SHAHM ING PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-cyan: #00f2ff; --ing-gold: #ffcc00; --dark-space: #0a0b10; }
+        :root { --neon: #00f2ff; --gold: #ffcc00; --bg: #05060a; }
         body { 
-            background: var(--dark-space); color: white; font-family: 'Cairo', sans-serif;
+            background: var(--bg); color: white; font-family: 'Cairo', sans-serif;
             margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
-            background-image: radial-gradient(circle at center, #1a1f35 0%, #0a0b10 100%);
         }
-        .container { 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px);
-            padding: 35px; border-radius: 25px; width: 90%; max-width: 450px;
-            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            position: relative; overflow: hidden;
+        .main-card { 
+            background: rgba(15, 20, 30, 0.9); padding: 30px; border-radius: 20px; 
+            width: 90%; max-width: 400px; border: 1px solid var(--neon);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15); text-align: center;
         }
-        .container::before {
-            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--main-cyan), transparent 30%);
-            animation: rotate 6s linear infinite; z-index: -1; opacity: 0.1;
-        }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        
-        h1 { font-size: 38px; margin: 0; font-weight: 900; letter-spacing: -1px; }
-        h1 span { color: var(--ing-gold); text-shadow: 0 0 15px var(--ing-gold); }
-        .neon-text { color: var(--main-cyan); text-shadow: 0 0 10px var(--main-cyan); font-size: 10px; letter-spacing: 5px; margin-bottom: 25px; }
-
-        .input-box { margin-bottom: 15px; text-align: right; }
-        label { display: block; margin-bottom: 8px; font-size: 13px; color: #8899a6; font-weight: bold; }
+        h1 { font-size: 35px; font-weight: 900; margin: 0; color: white; }
+        h1 span { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
+        .sub-title { color: var(--neon); font-size: 10px; letter-spacing: 3px; margin-bottom: 25px; opacity: 0.8; }
+        .field { text-align: right; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #8899a6; margin-bottom: 5px; margin-right: 5px; }
         input, textarea { 
-            width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid #2f3336;
-            border-radius: 12px; color: white; outline: none; transition: 0.3s; box-sizing: border-box;
+            width: 100%; padding: 12px; background: #111821; border: 1px solid #2f3336;
+            border-radius: 10px; color: white; outline: none; box-sizing: border-box; font-family: 'Cairo';
         }
-        input:focus, textarea:focus { border-color: var(--main-cyan); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
-
-        .btn-strike { 
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: white;
-            padding: 18px; border: none; border-radius: 15px; cursor: pointer;
-            width: 100%; font-weight: 900; font-size: 18px; margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); transition: 0.3s;
+        input:focus { border-color: var(--neon); }
+        .btn-go { 
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white;
+            padding: 15px; border: none; border-radius: 12px; cursor: pointer;
+            width: 100%; font-weight: bold; font-size: 18px; margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
         }
-        .btn-strike:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 210, 255, 0.6); }
-
-        .visitor-counter { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; }
+        .counter-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #1a242f; font-size: 11px; color: #55acee; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div style="text-align: center;">
-            <h1>SHAHM <span>ING</span></h1>
-            <div class="neon-text">SYSTEM V2 PRO</div>
+    <div class="main-card">
+        <h1>SHAHM <span>ING</span></h1>
+        <div class="sub-title">PREMIUM STRIKE SYSTEM</div>
+
+        <div class="field">
+            <label>بريد الدعم (Target)</label>
+            <input type="email" id="target" placeholder="support@telegram.org" oninput="save()">
         </div>
 
-        <div class="input-box">
-            <label>بريد الدعم (Target Support)</label>
-            <input type="email" id="target_email" placeholder="support@telegram.org" oninput="saveData()">
+        <div class="field">
+            <label>الموضوع</label>
+            <input type="text" id="sub" placeholder="Report ID: 772" oninput="save()">
         </div>
 
-        <div class="input-box">
-            <label>موضوع الرسالة</label>
-            <input type="text" id="subject" placeholder="Technical Report" oninput="saveData()">
+        <div class="field">
+            <label>الكليشة</label>
+            <textarea id="msg" rows="5" placeholder="اكتب بلاغك هنا..." oninput="save()"></textarea>
         </div>
 
-        <div class="input-box">
-            <label>الكليشة الاحترافية</label>
-            <textarea id="klisha" rows="5" placeholder="ضع نص البلاغ هنا..." oninput="saveData()"></textarea>
-        </div>
+        <button class="btn-go" onclick="send()">إطلاق الهجوم ⚡</button>
 
-        <button class="btn-strike" onclick="launchGmail()">إرسال الضربة الصاعقة ⚡</button>
-
-        <div class="visitor-counter">
-            <p>عدد الزوار الإجمالي لجهازك:</p>
-            <img src="https://hitwebcounter.com/counter/counter.php?page=shahming_v2&style=0006&nbdigits=5&type=page&initCount=0" title="Free Counter" Alt="web counter" border="0" />
+        <div class="counter-section">
+            <p>إحصائيات الزوار</p>
+            <img src="https://hitwebcounter.com/counter/counter.php?page=shahm_v3&style=0006&nbdigits=5&type=page&initCount=0" border="0" />
         </div>
     </div>
 
     <script>
-        window.onload = function() {
-            if (localStorage.getItem("s_email")) document.getElementById("target_email").value = localStorage.getItem("s_email");
-            if (localStorage.getItem("s_sub")) document.getElementById("subject").value = localStorage.getItem("s_sub");
-            if (localStorage.getItem("s_kli")) document.getElementById("klisha").value = localStorage.getItem("s_kli");
+        window.onload = () => {
+            document.getElementById("target").value = localStorage.getItem("t") || "";
+            document.getElementById("sub").value = localStorage.getItem("s") || "";
+            document.getElementById("msg").value = localStorage.getItem("m") || "";
         };
-
-        function saveData() {
-            localStorage.setItem("s_email", document.getElementById("target_email").value);
-            localStorage.setItem("s_sub", document.getElementById("subject").value);
-            localStorage.setItem("s_kli", document.getElementById("klisha").value);
+        function save() {
+            localStorage.setItem("t", document.getElementById("target").value);
+            localStorage.setItem("s", document.getElementById("sub").value);
+            localStorage.setItem("m", document.getElementById("msg").value);
         }
-
-        function launchGmail() {
-            const email = document.getElementById('target_email').value || "support@telegram.org";
-            const sub = document.getElementById('subject').value || "Support";
-            const body = document.getElementById('klisha').value;
-
-            const mailto = `mailto:${email}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailto;
+        function send() {
+            const t = document.getElementById("target").value || "support@telegram.org";
+            const s = document.getElementById("sub").value || "Support";
+            const m = document.getElementById("msg").value;
+            window.location.href = `mailto:${t}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(m)}`;
         }
     </script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHAHM ING PRO | نظام الشد المطور</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --main-cyan: #00f2ff; --ing-gold: #ffcc00; --dark-space: #0a0b10; }
-        body { 
-            background: var(--dark-space); color: white; font-family: 'Cairo', sans-serif;
-            margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
-            background-image: radial-gradient(circle at center, #1a1f35 0%, #0a0b10 100%);
-        }
-        .container { 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px);
-            padding: 35px; border-radius: 25px; width: 90%; max-width: 450px;
-            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            position: relative; overflow: hidden;
-        }
-        .container::before {
-            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--main-cyan), transparent 30%);
-            animation: rotate 6s linear infinite; z-index: -1; opacity: 0.1;
-        }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        
-        h1 { font-size: 38px; margin: 0; font-weight: 900; letter-spacing: -1px; }
-        h1 span { color: var(--ing-gold); text-shadow: 0 0 15px var(--ing-gold); }
-        .neon-text { color: var(--main-cyan); text-shadow: 0 0 10px var(--main-cyan); font-size: 10px; letter-spacing: 5px; margin-bottom: 25px; }
 
-        .input-box { margin-bottom: 15px; text-align: right; }
-        label { display: block; margin-bottom: 8px; font-size: 13px; color: #8899a6; font-weight: bold; }
-        input, textarea { 
-            width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid #2f3336;
-            border-radius: 12px; color: white; outline: none; transition: 0.3s; box-sizing: border-box;
-        }
-        input:focus, textarea:focus { border-color: var(--main-cyan); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
-
-        .btn-strike { 
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: white;
-            padding: 18px; border: none; border-radius: 15px; cursor: pointer;
-            width: 100%; font-weight: 900; font-size: 18px; margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); transition: 0.3s;
-        }
-        .btn-strike:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 210, 255, 0.6); }
-
-        .visitor-counter { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div style="text-align: center;">
-            <h1>SHAHM <span>ING</span></h1>
-            <div class="neon-text">SYSTEM V2 PRO</div>
-        </div>
-
-        <div class="input-box">
-            <label>بريد الدعم (Target Support)</label>
-            <input type="email" id="target_email" placeholder="support@telegram.org" oninput="saveData()">
-        </div>
-
-        <div class="input-box">
-            <label>موضوع الرسالة</label>
-            <input type="text" id="subject" placeholder="Technical Report" oninput="saveData()">
-        </div>
-
-        <div class="input-box">
-            <label>الكليشة الاحترافية</label>
-            <textarea id="klisha" rows="5" placeholder="ضع نص البلاغ هنا..." oninput="saveData()"></textarea>
-        </div>
-
-        <button class="btn-strike" onclick="launchGmail()">إرسال الضربة الصاعقة ⚡</button>
-
-        <div class="visitor-counter">
-            <p>عدد الزوار الإجمالي لجهازك:</p>
-            <img src="https://hitwebcounter.com/counter/counter.php?page=shahming_v2&style=0006&nbdigits=5&type=page&initCount=0" title="Free Counter" Alt="web counter" border="0" />
-        </div>
-    </div>
-
-    <script>
-        window.onload = function() {
-            if (localStorage.getItem("s_email")) document.getElementById("target_email").value = localStorage.getItem("s_email");
-            if (localStorage.getItem("s_sub")) document.getElementById("subject").value = localStorage.getItem("s_sub");
-            if (localStorage.getItem("s_kli")) document.getElementById("klisha").value = localStorage.getItem("s_kli");
-        };
-
-        function saveData() {
-            localStorage.setItem("s_email", document.getElementById("target_email").value);
-            localStorage.setItem("s_sub", document.getElementById("subject").value);
-            localStorage.setItem("s_kli", document.getElementById("klisha").value);
-        }
-
-        function launchGmail() {
-            const email = document.getElementById('target_email').value || "support@telegram.org";
-            const sub = document.getElementById('subject').value || "Support";
-            const body = document.getElementById('klisha').value;
-
-            const mailto = `mailto:${email}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailto;
-        }
-    </script>
-</body>
-</html>
