@@ -2,139 +2,199 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS SYSTEM | THE KINGDOM 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --fire: #ff3131; --gold: #d4af37; --bg: #0a0a0a; 
-            --card-bg: rgba(15, 15, 15, 0.98); --dragon-glow: rgba(255, 49, 49, 0.3);
+        body {
+            margin: 0; padding: 0;
+            background: #000 url('https://w0.peakpx.com/wallpaper/188/875/HD-wallpaper-black-stone-wall-texture-black-stone-background-stone-textures-wall-black-backgrounds.jpg');
+            background-size: cover;
+            color: white; font-family: 'Cairo', sans-serif;
         }
-        body { 
-            background: var(--bg); color: white; font-family: 'Cairo', sans-serif; 
-            margin: 0; display: flex; align-items: flex-start; justify-content: center; 
-            min-height: 100vh; padding: 15px; box-sizing: border-box;
-            background-image: radial-gradient(circle at center, #1a0505 0%, #0a0a0a 100%);
+
+        /* الشريط العلوي */
+        header {
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 2px solid #8b0000;
+            padding: 10px 0; text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        #rainCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .main-card { 
-            background: var(--card-bg); padding: 25px; border-radius: 20px; 
-            width: 100%; max-width: 450px; border: 2px solid #2a0000;
-            box-shadow: 0 0 40px var(--dragon-glow); text-align: center; backdrop-filter: blur(15px); 
-            position: relative; border-top: 4px solid var(--fire); margin-top: 10px;
+        .header-title { font-size: 24px; font-weight: 900; color: #fff; }
+        .header-title span { color: #ff3131; }
+
+        /* التنقل (Navbar) */
+        nav {
+            display: flex; justify-content: center; gap: 20px;
+            background: rgba(20, 0, 0, 0.9); padding: 8px;
+            border-bottom: 1px solid #440000;
         }
-        h1 { font-size: 30px; font-weight: 900; margin: 0; color: white; }
-        h1 span { color: var(--fire); text-shadow: 0 0 15px var(--fire); }
-        .sub-title { color: var(--gold); font-size: 10px; letter-spacing: 3px; margin-bottom: 20px; font-weight: bold; }
-        .strike-display { background: rgba(255, 0, 0, 0.08); border: 1px solid #441111; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .strike-count { font-size: 35px; font-weight: 900; color: var(--gold); }
-        .field { text-align: right; margin-bottom: 18px; position: relative; }
-        label { display: block; font-size: 13px; color: #b0b0b0; margin-bottom: 8px; font-weight: bold; }
-        input, textarea { 
-            width: 100%; padding: 16px; background: #1a0f0f; border: 1px solid #3d1a1a; 
-            border-radius: 12px; color: white; outline: none; box-sizing: border-box; 
-            font-size: 16px; font-family: 'Cairo'; transition: 0.3s;
+        nav a { color: #aaa; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        nav a:hover, nav a.active { color: #ff3131; }
+
+        .container {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 20px; padding: 30px 10px; max-width: 1200px; margin: auto;
         }
-        .paste-btn { position: absolute; left: 10px; top: 38px; background: var(--gold); color: black; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 5; cursor: pointer; }
-        .btn-go { background: linear-gradient(45deg, #8b0000, #ff3131); color: white; padding: 20px; border: none; border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; font-size: 24px; margin-top: 10px; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); }
-        #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 25px var(--fire); width: 90%; text-align: center; font-size: 14px; }
-        .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 15px; border-radius: 12px; width: 100%; margin-top: 25px; font-size: 15px; text-decoration: none; display: inline-block; box-sizing: border-box; text-align: center; font-weight: bold; }
-        .rights { margin-top: 30px; font-size: 13px; color: #777; }
-        .tg-note { font-size: 11px; color: #888; margin-top: 10px; font-style: italic; }
+
+        /* منطقة الإدخال الرئيسية */
+        .main-attack-box {
+            background: rgba(15, 15, 15, 0.9);
+            border: 2px solid #330000; border-radius: 15px;
+            padding: 25px; width: 100%; max-width: 600px;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.2);
+            position: relative; overflow: hidden;
+        }
+        .main-attack-box::before {
+            content: ""; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: url('https://pngimg.com/uploads/dragon/dragon_PNG84.png') no-repeat center;
+            background-size: 300px; opacity: 0.1; z-index: 0; pointer-events: none;
+        }
+
+        .input-row { display: flex; gap: 15px; margin-bottom: 20px; z-index: 1; position: relative; }
+        .field { flex: 1; text-align: right; }
+        label { display: block; font-size: 13px; color: #ff3131; margin-bottom: 8px; font-weight: bold; }
+        
+        input, textarea {
+            width: 100%; background: #0a0a0a; border: 1px solid #550000;
+            border-radius: 8px; padding: 12px; color: #fff; font-family: 'Cairo';
+            box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: #ff3131; box-shadow: 0 0 10px rgba(255, 49, 49, 0.3); }
+
+        .status-area {
+            background: rgba(0, 0, 0, 0.5); padding: 15px;
+            border-radius: 10px; border-right: 4px solid #ff3131;
+            margin: 20px 0; font-size: 14px; line-height: 1.8;
+        }
+
+        .btn-send {
+            background: #600000; color: white; border: none;
+            padding: 15px 40px; border-radius: 8px; font-weight: 900;
+            font-size: 18px; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-send:hover { background: #ff3131; transform: scale(1.02); }
+
+        /* الـ Leaderboard (قائمة الشرف) */
+        .leaderboard {
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid #440000; border-radius: 15px;
+            padding: 20px; width: 100%; max-width: 300px;
+            text-align: center;
+        }
+        .leaderboard h3 { color: #d4af37; margin-top: 0; border-bottom: 1px solid #330000; padding-bottom: 10px; }
+        .rank-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px; border-bottom: 1px solid #220000;
+        }
+        .rank-name { font-weight: bold; color: #fff; }
+        .rank-score { color: #d4af37; }
+
+        .footer-quote {
+            text-align: center; padding: 40px; color: #666;
+            font-size: 18px; font-weight: bold; letter-spacing: 2px;
+        }
+        .footer-quote span { color: #ff3131; }
+
+        @media (max-width: 768px) { .input-row { flex-direction: column; } }
     </style>
 </head>
 <body>
-    <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
-    <canvas id="rainCanvas"></canvas>
-    <div class="main-card">
-        <h1>AWS <span>SYSTEM</span></h1>
-        <div class="sub-title">DRACARYS PROTOCOL 🐲</div>
-        
-        <div class="strike-display">
-            <div style="font-size: 12px; color: #a0a0a0;">إجمالي ضربات التنين</div>
-            <div class="strike-count" id="countDisplay">0</div>
-            <button onclick="resetCounter()" style="background:transparent; border:none; color:#555; cursor:pointer; font-size:11px;">تصفير 🔄</button>
+
+<header>
+    <div class="header-title">نظام <span>أوس</span> | AWS SYSTEM</div>
+    <div style="font-size: 10px; color: #d4af37; letter-spacing: 5px;">FIRE AND BLOOD</div>
+</header>
+
+<nav>
+    <a href="#" class="active">الرئيسية 🐲</a>
+    <a href="#">هجوم السلسلة</a>
+    <a href="#">قائمة الشرف</a>
+    <a href="#">دعم النجوم</a>
+</nav>
+
+<div class="container">
+    <!-- الصندوق الرئيسي -->
+    <div class="main-attack-box">
+        <div class="input-row">
+            <div class="field">
+                <label>الموضوع</label>
+                <input type="text" id="sub" placeholder="اكتب الموضوع هنا..">
+            </div>
+            <div class="field">
+                <label>الجيميل (الدعم)</label>
+                <input type="text" id="target" value="abuse@telegram.org" readonly>
+            </div>
         </div>
 
         <div class="field">
-            <label>هدف الهجوم (تعبئة تلقائية)</label>
-            <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); border-color: var(--gold); text-align: center; font-weight: bold;">
+            <label>الكليشة (التنبيه)</label>
+            <textarea id="msg" rows="6" placeholder="الصق الكليشة هنا.."></textarea>
         </div>
 
-        <div class="field">
-            <label>موضوع الضربة</label>
-            <input type="text" id="sub" placeholder="اكتب الموضوع هنا...">
+        <div class="status-area">
+            <div>عدد الإرسال: <span id="countDisplay" style="color:#d4af37">0</span></div>
+            <div>الحالة التشغيلية: <span style="color:#00ff00">🔥 الإرسال مفتوح</span></div>
+            <div>قوة التارغاريان: <span style="color:#31a3ff">🛡️ مفعلة</span></div>
         </div>
 
-        <div class="field">
-            <label>كليشة الهجوم</label>
-            <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
-            <textarea id="msg" rows="5" placeholder="الصق كليشتك هنا..."></textarea>
-        </div>
-
-        <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
-        
-        <p class="tg-note">* إذا لم يظهر البريد داخل تليجرام، افتح الرابط في المتصفح الخارجي.</p>
-
-        <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع القائد أوس 🐲</a>
-        <div class="rights">
-            <span style="color: var(--gold); display: block;">"النار والدم.. القوة بين يديك"</span>
-            حقوق النظام محفوظة لـ <span style="color: var(--fire);">AWS V30</span>
-        </div>
+        <button class="btn-send" onclick="send()">ابدء الإرسال</button>
     </div>
 
-    <script>
-        const canvas = document.getElementById('rainCanvas');
-        const ctx = canvas.getContext('2d');
-        let sparks = [];
-        function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
-        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
+    <!-- قائمة المتبرعين -->
+    <div class="leaderboard">
+        <div style="background:#440000; padding:5px; border-radius:5px; margin-bottom:15px; font-size:12px;">Leaderboard</div>
+        <h3>تنانين التارغاريان</h3>
+        <div class="rank-item">
+            <span class="rank-name">👑 F16 </span>
+            <span class="rank-score">100 ⭐</span>
+        </div>
+        <div class="rank-item">
+            <span class="rank-name">🐲 حمودي</span>
+            <span class="rank-score">70 ⭐</span>
+        </div>
+        <div class="rank-item">
+            <span class="rank-name">👤 المحبين</span>
+            <span class="rank-score">20 ⭐</span>
+        </div>
+        <img src="https://i.pinimg.com/originals/84/f1/44/84f1440268f7601f786d3e8523c914e6.png" style="width:150px; margin-top:20px; opacity:0.6">
+    </div>
+</div>
+
+<div class="footer-quote">
+    قوة <span>التارغاريان</span> بين يديك..
+</div>
+
+<script>
+    window.onload = () => {
+        document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
+        const savedSub = localStorage.getItem("sub");
+        const savedMsg = localStorage.getItem("msg");
+        if(savedSub) document.getElementById("sub").value = savedSub;
+        if(savedMsg) document.getElementById("msg").value = savedMsg;
+    };
+
+    function send() {
+        let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
+        localStorage.setItem("strike_count", strikes);
+        document.getElementById("countDisplay").innerText = strikes;
         
-        async function pasteKlisha() {
-            try {
-                const text = await navigator.clipboard.readText();
-                document.getElementById('msg').value = text;
-                localStorage.setItem('msg', text);
-                showStatus("✅ تم لصق النص");
-            } catch (err) { showStatus("❌ يرجى منح إذن الحافظة"); }
+        const sub = document.getElementById("sub").value;
+        const msg = document.getElementById("msg").value;
+        localStorage.setItem("sub", sub);
+        localStorage.setItem("msg", msg);
+
+        const targetMail = "abuse@telegram.org";
+        const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(sub) + "&body=" + encodeURIComponent(msg);
+
+        // محاولة الفتح بطريقة تليجرام
+        const newWin = window.open(mailtoLink, '_blank');
+        if(!newWin || newWin.closed) {
+            window.location.href = mailtoLink;
         }
+    }
+</script>
 
-        function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
-
-        window.onload = () => {
-            initSparks(); drawSparks();
-            ['sub', 'msg'].forEach(id => {
-                const saved = localStorage.getItem(id);
-                if (saved) document.getElementById(id).value = saved;
-                document.getElementById(id).oninput = () => localStorage.setItem(id, document.getElementById(id).value);
-            });
-            document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
-        };
-
-        function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
-
-        function send() {
-            let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
-            localStorage.setItem("strike_count", strikes);
-            document.getElementById("countDisplay").innerText = strikes;
-            
-            const targetMail = "abuse@telegram.org";
-            const subjectText = document.getElementById("sub").value.trim();
-            const bodyText = document.getElementById("msg").value;
-
-            showStatus("🔥 جاري كسر القيود وتوجيه الضربة..");
-
-            // الحيلة التقنية: تكرار البريد مرتين بصيغ مختلفة لإجبار متصفح تليجرام على الفهم
-            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
-
-            // محاولة فتح الرابط في نافذة جديدة لإجبار تليجرام على الخروج للمتصفح الافتراضي
-            const newWin = window.open(mailtoLink, '_blank');
-            
-            // احتياط إذا منع تليجرام النافذة الجديدة
-            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
-                window.location.href = mailtoLink;
-            }
-        }
-    </script>
 </body>
 </html>
