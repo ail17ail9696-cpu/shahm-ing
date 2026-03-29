@@ -40,6 +40,7 @@
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 25px var(--fire); width: 90%; text-align: center; font-size: 14px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 15px; border-radius: 12px; width: 100%; margin-top: 25px; font-size: 15px; text-decoration: none; display: inline-block; box-sizing: border-box; text-align: center; font-weight: bold; }
         .rights { margin-top: 30px; font-size: 13px; color: #777; }
+        .tg-note { font-size: 11px; color: #888; margin-top: 10px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -56,13 +57,13 @@
         </div>
 
         <div class="field">
-            <label>هدف الهجوم</label>
-            <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); border-color: var(--gold); text-align: center; font-weight: bold; letter-spacing: 1px;">
+            <label>هدف الهجوم (تعبئة تلقائية)</label>
+            <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); border-color: var(--gold); text-align: center; font-weight: bold;">
         </div>
 
         <div class="field">
             <label>موضوع الضربة</label>
-            <input type="text" id="sub" placeholder="اكتب الموضضضوع هنا...">
+            <input type="text" id="sub" placeholder="اكتب الموضوع هنا...">
         </div>
 
         <div class="field">
@@ -73,6 +74,8 @@
 
         <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
         
+        <p class="tg-note">* إذا لم يظهر البريد داخل تليجرام، افتح الرابط في المتصفح الخارجي.</p>
+
         <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع القائد أوس 🐲</a>
         <div class="rights">
             <span style="color: var(--gold); display: block;">"النار والدم.. القوة بين يديك"</span>
@@ -81,21 +84,19 @@
     </div>
 
     <script>
-        // تأثير الجزيئات المتساقطة
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
         function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
         function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
         
-        // وظيفة اللصق الذكي
         async function pasteKlisha() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('msg').value = text;
                 localStorage.setItem('msg', text);
-                showStatus("✅ تم لصق النص من الحافظة");
-            } catch (err) { showStatus("❌ يرجى منح إذن الحافظة للمتصفح"); }
+                showStatus("✅ تم لصق النص");
+            } catch (err) { showStatus("❌ يرجى منح إذن الحافظة"); }
         }
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
@@ -112,32 +113,27 @@
 
         function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
 
-        // وظيفة الإرسال التي تجبر تعبئة خانة "إلى"
         function send() {
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
             
-            const targetMail = "abuse@telegram.org"; // البريد بدون فراغات
+            const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
 
-            showStatus("🔥 جاري توجيه الضربة إلى " + targetMail);
+            showStatus("🔥 جاري كسر القيود وتوجيه الضربة..");
 
-            // الطريقة الأدق تقنياً لضمان تعبئة المستلم (To)
-            // نستخدم mailto:EMAIL مباشرة قبل أي معاملات أخرى
-            const mailtoLink = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            // الحيلة التقنية: تكرار البريد مرتين بصيغ مختلفة لإجبار متصفح تليجرام على الفهم
+            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
 
-            // محاكاة نقرة حقيقية عبر عنصر A مخفي لضمان استجابة النظام
-            const anchor = document.createElement('a');
-            anchor.href = mailtoLink;
-            anchor.style.display = 'none';
-            document.body.appendChild(anchor);
+            // محاولة فتح الرابط في نافذة جديدة لإجبار تليجرام على الخروج للمتصفح الافتراضي
+            const newWin = window.open(mailtoLink, '_blank');
             
-            setTimeout(() => {
-                anchor.click();
-                document.body.removeChild(anchor);
-            }, 500);
+            // احتياط إذا منع تليجرام النافذة الجديدة
+            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
+                window.location.href = mailtoLink;
+            }
         }
     </script>
 </body>
