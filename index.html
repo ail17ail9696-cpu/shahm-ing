@@ -14,10 +14,17 @@
             background: var(--bg); color: white; font-family: 'Cairo', sans-serif; 
             margin: 0; min-height: 100vh; overflow-x: hidden;
             background-image: radial-gradient(circle at center, #1a0505 0%, #0a0a0a 100%);
+            user-select: none; -webkit-user-select: none;
         }
         #rainCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* التنسيق العلوي والقائمة */
+        /* واجهة القفل */
+        #lockScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 99999; display: flex; align-items: center; justify-content: center; }
+        .lock-box { background: #111; border: 2px solid var(--fire); padding: 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 350px; box-shadow: 0 0 30px rgba(255,0,0,0.4); }
+        .lock-box input { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--fire); color: white; border-radius: 10px; text-align: center; box-sizing: border-box; font-family: 'Cairo'; }
+        .btn-unlock { background: var(--fire); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
+        .channel-link { color: var(--gold); text-decoration: none; font-size: 13px; display: block; margin-bottom: 10px; }
+
         header { background: rgba(0, 0, 0, 0.9); border-bottom: 2px solid #4a0000; padding: 15px 0; text-align: center; }
         header h1 { font-size: 24px; margin: 0; color: white; }
         header h1 span { color: var(--fire); text-shadow: 0 0 10px var(--fire); }
@@ -26,6 +33,7 @@
             display: flex; justify-content: center; gap: 8px;
             background: rgba(30, 0, 0, 0.8); padding: 10px;
             position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+            opacity: 0; transition: 0.5s;
         }
         nav button {
             background: rgba(255,255,255,0.05); border: none; color: #aaa;
@@ -34,12 +42,11 @@
         }
         nav button.active { color: var(--fire); background: rgba(255,0,0,0.1); border: 1px solid var(--fire); }
 
-        .container { max-width: 480px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
+        .container { max-width: 480px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; opacity: 0; transition: 0.5s; }
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* الصندوق الرئيسي (ستايل البطاقة اللي أرسلتها) */
         .main-card { 
             background: var(--card-bg); padding: 25px; border-radius: 20px; 
             border: 2px solid #2a0000; box-shadow: 0 0 40px var(--dragon-glow); 
@@ -59,12 +66,10 @@
         .paste-btn { position: absolute; left: 10px; top: 38px; background: var(--gold); color: black; border: none; padding: 5px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; z-index: 5; }
         .btn-go { background: linear-gradient(45deg, #8b0000, #ff3131); color: white; padding: 18px; border: none; border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; font-size: 22px; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); }
 
-        /* ستايل هجوم السلسلة */
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
         .log-target { color: #fff; font-size: 12px; opacity: 0.7; }
 
-        /* ستايل قائمة الشرف */
         .honor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .honor-card { background: #111; border: 1px solid #331111; padding: 15px; border-radius: 12px; border-bottom: 2px solid var(--gold); }
         .honor-card h4 { margin: 0 0 5px 0; font-size: 14px; }
@@ -74,7 +79,18 @@
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
+    <div id="lockScreen">
+        <div class="lock-box">
+            <h2 style="color:var(--fire); margin:0;">نظام التنين المقيد 🐲</h2>
+            <p style="font-size:12px; color:#aaa;">الرجاء الاشتراك في القناة لجلب كود التفعيل</p>
+            <a href="https://t.me/Tydj7" target="_blank" class="channel-link">اضغط هنا للاشتراك وجلب الكود 📢</a>
+            <input type="text" id="passInput" placeholder="أدخل كود التفعيل...">
+            <button class="btn-unlock" onclick="v_check()">تفعيل النظام 🔥</button>
+            <p id="errorMsg" style="color:red; font-size:11px; margin-top:10px; display:none;">الكود خاطئ! تأكد من القناة.</p>
+        </div>
+    </div>
 
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
     <canvas id="rainCanvas"></canvas>
@@ -84,15 +100,14 @@
         <div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div>
     </header>
 
-    <nav>
+    <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
         <button onclick="showPage('attacks')" id="btn-attacks">هجوم السلسلة</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
         <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
     </nav>
 
-    <div class="container">
-        <!-- صفحة الإرسال (اللي أرسلتها أنت) -->
+    <div class="container" id="mainCont">
         <div id="home" class="page active">
             <div class="main-card">
                 <div class="strike-display">
@@ -100,42 +115,27 @@
                     <div class="strike-count" id="countDisplay">0</div>
                     <button onclick="resetCounter()" style="background:transparent; border:none; color:#555; cursor:pointer; font-size:10px;">تصفير 🔄</button>
                 </div>
-
-                <div class="field">
-                    <label>هدف الهجوم</label>
-                    <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;">
-                </div>
-
-                <div class="field">
-                    <label>موضوع الضربة</label>
-                    <input type="text" id="sub" placeholder="Subject...">
-                </div>
-
+                <div class="field"><label>هدف الهجوم</label><input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;"></div>
+                <div class="field"><label>موضوع الضربة</label><input type="text" id="sub" placeholder="Subject..."></div>
                 <div class="field">
                     <label>كليشة الهجوم</label>
                     <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
                     <textarea id="msg" rows="5" placeholder="الصق كليشتك هنا..."></textarea>
                 </div>
-
                 <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
                 <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع المطور أوس 🐲</a>
             </div>
         </div>
 
-        <!-- صفحة هجوم السلسلة (الأسماء الوهمية) -->
         <div id="attacks" class="page">
-            <div class="main-card">
-                <h3 style="color:var(--fire); margin-top:0;">سجل العمليات ⛓️</h3>
-                <div id="attackLogs"></div>
-            </div>
+            <div class="main-card"><h3 style="color:var(--fire); margin-top:0;">سجل العمليات ⛓️</h3><div id="attackLogs"></div></div>
         </div>
 
-        <!-- صفحة قائمة الشرف (تعديل الأسامي والنجوم) -->
         <div id="honor" class="page">
             <div class="main-card">
                 <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
                 <div class="honor-grid">
-                    <div class="honor-card"><h4>أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
+                    <div class="honor-card"><h4>المطور أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>دانتي 🔥</h4><div class="star-badge">12 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>الرعب الاسود 💀</h4><div class="star-badge">12 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>F16 ✈️</h4><div class="star-badge">10 نجمة 🌟</div></div>
@@ -146,14 +146,29 @@
     </div>
 
     <script>
-        // نظام المطر/الشرارات
+        // حماية الكود - قفل الدومين ومنع الاختصارات
+        document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; };
+        
+        const _v1 = "QVdTMjAyNg=="; // الرمز AWS2026 مشفر
+
+        function v_check() {
+            const i = document.getElementById('passInput').value;
+            if(btoa(i) === _v1) {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainCont').style.opacity = '1';
+                document.getElementById('navbar').style.opacity = '1';
+                localStorage.setItem('aws_dragon_v', 'true');
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
         function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
         function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
 
-        // التبديل بين الصفحات
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -162,7 +177,6 @@
             if(pageId === 'attacks') generateAttackLogs();
         }
 
-        // لصق الكليشة
         async function pasteKlisha() {
             try {
                 const text = await navigator.clipboard.readText();
@@ -174,22 +188,27 @@
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
-        // توليد الهجمات الوهمية (الملوك وأسماء مزخرفة)
-        const fakeUsers = [" اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ","king-16", "فهدVTV", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
-        const fakeGroups = ["الملوك 👑", "تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
-
         function generateAttackLogs() {
+            const users = [" اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ","king-16", "فهدVTV", "AWS_WARRIOR"];
+            const groups = ["تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
             const container = document.getElementById('attackLogs');
             container.innerHTML = '';
             for(let i=0; i<8; i++) {
-                const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-                const group = fakeGroups[Math.floor(Math.random() * fakeGroups.length)];
-                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${user}</span><span class="log-target">🎯يتم الارسال  [ ${group} ] بنجاح</span></div>`;
+                const u = users[Math.floor(Math.random() * users.length)];
+                const g = groups[Math.floor(Math.random() * groups.length)];
+                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${u}</span><span class="log-target">🎯 يتم ضرب [ ${g} ] بنجاح</span></div>`;
             }
         }
 
-        // الإرسال والعداد
         window.onload = () => {
+            // التحقق من الملكية الأصلية (إبدال الرابط برابط الجيت هاب الخاص بك)
+            if (window.location.hostname !== "ail17ail9696-cpu.github.io" && window.location.hostname !== "localhost") { window.location.href = "https://t.me/Tydj7"; }
+
+            if(localStorage.getItem('aws_dragon_v') === 'true') {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainCont').style.opacity = '1';
+                document.getElementById('navbar').style.opacity = '1';
+            }
             initSparks(); drawSparks();
             document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
             ['sub', 'msg'].forEach(id => {
@@ -205,18 +224,11 @@
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
-            
             const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
-
             showStatus("🔥 دراكاريس! جاري الإرسال..");
-            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
-            
-            const newWin = window.open(mailtoLink, '_blank');
-            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
-                window.location.href = mailtoLink;
-            }
+            window.location.href = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
         }
     </script>
 </body>
