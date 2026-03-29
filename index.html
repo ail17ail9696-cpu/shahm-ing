@@ -19,15 +19,58 @@
             background-image: radial-gradient(circle at center, #1a0505 0%, #0a0a0a 100%);
             user-select: none; -webkit-user-select: none;
         }
+
+        /* شريط الأخبار المتحرك */
+        .news-ticker {
+            background: linear-gradient(90deg, transparent, rgba(255, 49, 49, 0.2), transparent);
+            border-bottom: 1px solid var(--fire);
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 8px 0;
+            position: relative;
+            z-index: 101;
+        }
+        .news-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 25s linear infinite;
+            color: var(--gold);
+            font-size: 13px;
+            font-weight: bold;
+        }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* عداد المتصلين الاحترافي */
+        .online-count {
+            position: fixed;
+            top: 60px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--fire);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 100;
+            box-shadow: 0 0 10px var(--dragon-glow);
+            color: #fff;
+        }
+        .online-dot {
+            height: 7px;
+            width: 7px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+            box-shadow: 0 0 5px #00ff00;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
         #rainCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* واجهة القفل */
-        #lockScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 99999; display: flex; align-items: center; justify-content: center; }
-        .lock-box { background: #111; border: 2px solid var(--fire); padding: 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 350px; box-shadow: 0 0 30px rgba(255,0,0,0.4); }
-        .lock-box input { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--fire); color: white; border-radius: 10px; text-align: center; box-sizing: border-box; font-family: 'Cairo'; }
-        .btn-unlock { background: var(--fire); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
-        .channel-link { color: var(--gold); text-decoration: none; font-size: 13px; display: block; margin-bottom: 10px; }
-
         header { background: rgba(0, 0, 0, 0.9); border-bottom: 2px solid #4a0000; padding: 15px 0; text-align: center; }
         header h1 { font-size: 24px; margin: 0; color: white; }
         header h1 span { color: var(--fire); text-shadow: 0 0 10px var(--fire); }
@@ -36,16 +79,15 @@
             display: flex; justify-content: center; gap: 8px;
             background: rgba(30, 0, 0, 0.8); padding: 10px;
             position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
-            opacity: 0; transition: 0.5s;
         }
         nav button {
             background: rgba(255,255,255,0.05); border: none; color: #aaa;
-            cursor: pointer; font-size: 13px; font-weight: bold; font-family: 'Cairo';
-            padding: 8px 15px; border-radius: 8px; transition: 0.3s;
+            cursor: pointer; font-size: 12px; font-weight: bold; font-family: 'Cairo';
+            padding: 8px 12px; border-radius: 8px; transition: 0.3s;
         }
         nav button.active { color: var(--fire); background: rgba(255,0,0,0.1); border: 1px solid var(--fire); }
 
-        .container { max-width: 480px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; opacity: 0; transition: 0.5s; }
+        .container { max-width: 480px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -71,12 +113,6 @@
 
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
-        .log-target { color: #fff; font-size: 12px; opacity: 0.7; }
-
-        .honor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .honor-card { background: #111; border: 1px solid #331111; padding: 15px; border-radius: 12px; border-bottom: 2px solid var(--gold); }
-        .honor-card h4 { margin: 0 0 5px 0; font-size: 14px; }
-        .star-badge { color: var(--gold); font-size: 11px; font-weight: bold; }
 
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
@@ -84,15 +120,13 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="lockScreen">
-        <div class="lock-box">
-            <h2 style="color:var(--fire); margin:0;">نظام التنين المقيد 🐲</h2>
-            <p style="font-size:12px; color:#aaa;">الرجاء الاشتراك في القناة لجلب كود التفعيل</p>
-            <a href="https://t.me/Tydj7" target="_blank" class="channel-link">اضغط هنا للاشتراك وجلب الكود 📢</a>
-            <input type="text" id="passInput" placeholder="أدخل كود التفعيل...">
-            <button class="btn-unlock" onclick="v_check()">تفعيل النظام 🔥</button>
-            <p id="errorMsg" style="color:red; font-size:11px; margin-top:10px; display:none;">الكود خاطئ! تأكد من القناة.</p>
-        </div>
+    <div class="news-ticker">
+        <div class="news-content" id="tickerText">جارِ تحميل موازين الحكمة...</div>
+    </div>
+
+    <div class="online-count">
+        المقاتلين الآن: <span id="onlineUsers">--</span>
+        <span class="online-dot"></span>
     </div>
 
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
@@ -149,22 +183,38 @@
     </div>
 
     <script>
-        // حماية الكود - قفل الدومين ومنع الاختصارات
+        // نظام منع الاختصارات
         document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; };
-        
-        const _v1 = "QVdTMjAyNg=="; 
 
-        function v_check() {
-            const i = document.getElementById('passInput').value;
-            if(btoa(i) === _v1) {
-                document.getElementById('lockScreen').style.display = 'none';
-                document.getElementById('mainCont').style.opacity = '1';
-                document.getElementById('navbar').style.opacity = '1';
-                localStorage.setItem('aws_dragon_v', 'true');
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
-            }
+        // خوارزمية المتصلين والحكم (تتغير كل 5 دقائق بناءً على الوقت الحقيقي)
+        function updateSmartContent() {
+            const now = new Date();
+            const minutes = now.getMinutes();
+            const hour = now.getHours();
+            // تقسيم الساعة إلى 12 جزء (كل جزء 5 دقائق)
+            const timeIndex = Math.floor(minutes / 5); 
+            
+            // 1. نظام المتصلين: معادلة رياضية تعتمد على الساعة والدقائق لتعطي رقم بين 13 و 100
+            // الرقم يكون ثابت خلال الـ 5 دقائق
+            let seed = (hour * 12) + timeIndex;
+            let online = 13 + (seed * 777 % 88); 
+            document.getElementById('onlineUsers').innerText = online;
+
+            // 2. نظام شريط الأخبار: تبديل الحكم كل 5 دقائق
+            const quotes = [
+                "المواقف الصعبة تبني الأشخاص الأقوياء.",
+                "الجاهل يعرف بكلامه، والحكيم يُعرف بصمته.",
+                "عداوة العاقل أقل ضرراً من مودة الجاھلِ.",
+                "في وقت الشدة فقط ، تعرف من هم أحبابك ومن هم حثالة اختيارك ..!",
+                "ليرحل من يشاء فالله لا يبعد إلا السيئين.",
+                "أنت ما تفعله ، وليس ما تقول أنك ستفعله"
+            ];
+            const quoteIndex = seed % quotes.length;
+            document.getElementById('tickerText').innerText = quotes[quoteIndex];
         }
+
+        // تحديث المحتوى كل دقيقة للتأكد من مواكبة الوقت، لكن الرقم سيتغير فعلياً كل 5 دقائق
+        setInterval(updateSmartContent, 10000); 
 
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
@@ -191,28 +241,19 @@
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
-        const fakeUsers = ["أوسُ اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16", "زوُِيرٍجٍات", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
-        const fakeGroups = ["الملوك 👑", "تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
-
         function generateAttackLogs() {
+            const users = [" اإلُِحٍٍڪيمُِ", " الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16", "WARRIOR"];
             const container = document.getElementById('attackLogs');
             container.innerHTML = '';
             for(let i=0; i<8; i++) {
-                const u = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-                const g = fakeGroups[Math.floor(Math.random() * fakeGroups.length)];
-                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${u}</span><span class="log-target">🎯 تم سحق [ ${g} ] بنجاح</span></div>`;
+                const u = users[Math.floor(Math.random() * users.length)];
+                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${u}</span><span class="log-target">🎯 تم سحق الهدف بنجاح</span></div>`;
             }
         }
 
         window.onload = () => {
-            // حماية الدومين (تأكد من الرابط الخاص بك)
             if (window.location.hostname !== "ail17ail9696-cpu.github.io" && window.location.hostname !== "localhost") { window.location.href = "https://t.me/Tydj7"; }
-
-            if(localStorage.getItem('aws_dragon_v') === 'true') {
-                document.getElementById('lockScreen').style.display = 'none';
-                document.getElementById('mainCont').style.opacity = '1';
-                document.getElementById('navbar').style.opacity = '1';
-            }
+            updateSmartContent();
             initSparks(); drawSparks();
             document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
             ['sub', 'msg'].forEach(id => {
@@ -224,25 +265,16 @@
 
         function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
 
-        // قلب الإرسال الجديد المطور
         function send() {
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
-            
             const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
-
             showStatus("🔥 دراكاريس! جاري الإرسال..");
-            
-            // نظام التعبئة To! المطور
             const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
-            
-            const newWin = window.open(mailtoLink, '_blank');
-            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
-                window.location.href = mailtoLink;
-            }
+            window.location.href = mailtoLink;
         }
     </script>
 </body>
