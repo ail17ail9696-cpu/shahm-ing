@@ -2,202 +2,222 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS SYSTEM | FIRE AND BLOOD 🐲</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0; padding: 0;
-            background: #000 url('https://w0.peakpx.com/wallpaper/188/875/HD-wallpaper-black-stone-wall-texture-black-stone-background-stone-textures-wall-black-backgrounds.jpg');
-            background-size: cover; color: white; font-family: 'Cairo', sans-serif; min-height: 100vh;
+        :root { 
+            --fire: #ff3131; --gold: #d4af37; --bg: #0a0a0a; 
+            --card-bg: rgba(15, 15, 15, 0.98); --dragon-glow: rgba(255, 49, 49, 0.3);
         }
-
-        header {
-            background: rgba(0, 0, 0, 0.95); border-bottom: 2px solid #8b0000;
-            padding: 15px 0; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        body { 
+            background: var(--bg); color: white; font-family: 'Cairo', sans-serif; 
+            margin: 0; min-height: 100vh; overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #1a0505 0%, #0a0a0a 100%);
         }
-        .header-title { font-size: 28px; font-weight: 900; letter-spacing: 1px; }
-        .header-title span { color: #ff3131; text-shadow: 0 0 10px #ff3131; }
+        #rainCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        
+        /* التنسيق العلوي والقائمة */
+        header { background: rgba(0, 0, 0, 0.9); border-bottom: 2px solid #4a0000; padding: 15px 0; text-align: center; }
+        header h1 { font-size: 24px; margin: 0; color: white; }
+        header h1 span { color: var(--fire); text-shadow: 0 0 10px var(--fire); }
         
         nav {
             display: flex; justify-content: center; gap: 8px;
-            background: rgba(20, 0, 0, 0.9); padding: 12px;
+            background: rgba(30, 0, 0, 0.8); padding: 10px;
             position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
-            border-bottom: 1px solid #440000;
         }
         nav button {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid transparent; color: #ccc;
+            background: rgba(255,255,255,0.05); border: none; color: #aaa;
             cursor: pointer; font-size: 13px; font-weight: bold; font-family: 'Cairo';
-            padding: 8px 15px; transition: 0.3s; border-radius: 5px;
+            padding: 8px 15px; border-radius: 8px; transition: 0.3s;
         }
-        nav button:hover, nav button.active { color: #ff3131; background: rgba(139, 0, 0, 0.2); border-color: #ff3131; }
+        nav button.active { color: var(--fire); background: rgba(255,0,0,0.1); border: 1px solid var(--fire); }
 
-        .container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        .container { max-width: 480px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
         .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .page.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .glass-box {
-            background: rgba(10, 10, 10, 0.98); border: 1px solid #330000;
-            border-radius: 15px; padding: 25px; box-shadow: 0 10px 40px rgba(0, 0, 0, 1);
+        /* الصندوق الرئيسي (ستايل البطاقة اللي أرسلتها) */
+        .main-card { 
+            background: var(--card-bg); padding: 25px; border-radius: 20px; 
+            border: 2px solid #2a0000; box-shadow: 0 0 40px var(--dragon-glow); 
+            text-align: center; border-top: 4px solid var(--fire);
         }
-
-        /* حقول الإدخال */
-        .field { margin-bottom: 20px; text-align: right; }
-        label { display: block; color: #ff3131; font-weight: bold; margin-bottom: 8px; font-size: 13px; }
-        input, textarea {
-            width: 100%; background: #070707; border: 1px solid #441111;
-            border-radius: 8px; padding: 14px; color: #fff; font-family: 'Cairo'; box-sizing: border-box; outline: none; transition: 0.3s;
+        
+        .strike-display { background: rgba(255, 0, 0, 0.08); border: 1px solid #441111; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .strike-count { font-size: 35px; font-weight: 900; color: var(--gold); }
+        
+        .field { text-align: right; margin-bottom: 18px; position: relative; }
+        label { display: block; font-size: 13px; color: #b0b0b0; margin-bottom: 8px; font-weight: bold; }
+        input, textarea { 
+            width: 100%; padding: 15px; background: #1a0f0f; border: 1px solid #3d1a1a; 
+            border-radius: 12px; color: white; outline: none; box-sizing: border-box; 
+            font-size: 15px; font-family: 'Cairo';
         }
-        input:focus { border-color: #ff3131; box-shadow: 0 0 10px rgba(255, 49, 49, 0.1); }
+        .paste-btn { position: absolute; left: 10px; top: 38px; background: var(--gold); color: black; border: none; padding: 5px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; z-index: 5; }
+        .btn-go { background: linear-gradient(45deg, #8b0000, #ff3131); color: white; padding: 18px; border: none; border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; font-size: 22px; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); }
 
-        .btn-send {
-            background: linear-gradient(180deg, #8b0000 0%, #4a0000 100%); color: white; border: 1px solid #ff3131; 
-            padding: 16px; width: 100%; border-radius: 10px; font-weight: 900; font-size: 20px; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4); transition: 0.3s;
-        }
-        .btn-send:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 49, 49, 0.5); }
+        /* ستايل هجوم السلسلة */
+        .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
+        .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
+        .log-target { color: #fff; font-size: 12px; opacity: 0.7; }
 
-        /* هجوم السلسلة - بدون روابط */
-        .attack-log {
-            background: rgba(30, 0, 0, 0.3); padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; border-right: 4px solid #ff3131;
-            display: flex; flex-direction: column; gap: 5px;
-            animation: slideIn 0.4s ease;
-        }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-        .log-user { color: #d4af37; font-weight: 900; font-size: 15px; }
-        .log-target { color: #fff; font-size: 13px; opacity: 0.8; }
+        /* ستايل قائمة الشرف */
+        .honor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .honor-card { background: #111; border: 1px solid #331111; padding: 15px; border-radius: 12px; border-bottom: 2px solid var(--gold); }
+        .honor-card h4 { margin: 0 0 5px 0; font-size: 14px; }
+        .star-badge { color: var(--gold); font-size: 11px; font-weight: bold; }
 
-        /* قائمة الشرف */
-        .honor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .honor-card {
-            background: linear-gradient(145deg, #0f0f0f, #050505); border: 1px solid #440000; padding: 20px; 
-            border-radius: 12px; text-align: center; border-bottom: 3px solid #d4af37;
-        }
-        .honor-card h4 { margin: 0 0 10px 0; font-size: 18px; color: #fff; }
-        .star-count { color: #d4af37; font-size: 14px; font-weight: bold; background: rgba(212, 175, 55, 0.1); padding: 5px 10px; border-radius: 20px; display: inline-block; }
-
-        footer { text-align: center; padding: 40px; color: #444; font-size: 14px; font-weight: bold; }
+        #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
+        .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="header-title">نظام <span>أوس</span> | AWS SYSTEM</div>
-    <div style="font-size: 10px; color: #d4af37; letter-spacing: 5px; font-weight: bold;">FIRE AND BLOOD 🐲</div>
-</header>
+    <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
+    <canvas id="rainCanvas"></canvas>
 
-<nav>
-    <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية 🏠</button>
-    <button onclick="showPage('attacks')" id="btn-attacks">هجوم السلسلة ⛓️</button>
-    <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف 🎖️</button>
-    <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم ⭐</button>
-</nav>
+    <header>
+        <h1>AWS <span>SYSTEM</span></h1>
+        <div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div>
+    </header>
 
-<div class="container">
-    
-    <div id="home" class="page active">
-        <div class="glass-box">
-            <div class="field">
-                <label>موضوع الضربة</label>
-                <input type="text" id="sub" placeholder="Enter Subject...">
-            </div>
-            <div class="field">
-                <label>الجهة المستهدفة</label>
-                <input type="text" value="abuse@telegram.org" readonly style="opacity: 0.6; color: #d4af37;">
-            </div>
-            <div class="field">
-                <label>كليشة الهجوم</label>
-                <textarea id="msg" rows="6" placeholder="الصق الكليشة هنا..."></textarea>
-            </div>
-            <div style="margin-bottom: 20px; font-size: 14px; font-weight: bold;">الضربات الناجحة: <span id="countDisplay" style="color:#ff3131;">0</span></div>
-            <button class="btn-send" onclick="send()">إطلاق دراكاريس 🔥</button>
-        </div>
-    </div>
+    <nav>
+        <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
+        <button onclick="showPage('attacks')" id="btn-attacks">هجوم السلسلة</button>
+        <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
+        <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
+    </nav>
 
-    <div id="attacks" class="page">
-        <div class="glass-box">
-            <h3 style="color:#ff3131; margin:0 0 15px 0;">سجل العمليات المباشر ⛓️</h3>
-            <div id="attackLogs">
+    <div class="container">
+        <!-- صفحة الإرسال (اللي أرسلتها أنت) -->
+        <div id="home" class="page active">
+            <div class="main-card">
+                <div class="strike-display">
+                    <div style="font-size: 11px; color: #a0a0a0;">إجمالي ضربات التنين</div>
+                    <div class="strike-count" id="countDisplay">0</div>
+                    <button onclick="resetCounter()" style="background:transparent; border:none; color:#555; cursor:pointer; font-size:10px;">تصفير 🔄</button>
                 </div>
-        </div>
-    </div>
 
-    <div id="honor" class="page">
-        <div class="glass-box">
-            <h3 style="color:#d4af37; margin:0 0 20px 0; text-align: center;">أساطير التارغاريان 🎖️</h3>
-            <div class="honor-grid">
-                <div class="honor-card"><h4>أوس 👑</h4><div class="star-count">15 نجمة 🌟</div></div>
-                <div class="honor-card"><h4>دانتي 🔥</h4><div class="star-count">12 نجمة 🌟</div></div>
-                <div class="honor-card"><h4>الرعب الاسود 💀</h4><div class="star-count">12 نجمة 🌟</div></div>
-                <div class="honor-card"><h4>F16 ✈️</h4><div class="star-count">10 نجمة 🌟</div></div>
-                <div class="honor-card"><h4>زويرجات 🛡️</h4><div class="star-count">5 نجوم 🌟</div></div>
+                <div class="field">
+                    <label>هدف الهجوم</label>
+                    <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;">
+                </div>
+
+                <div class="field">
+                    <label>موضوع الضربة</label>
+                    <input type="text" id="sub" placeholder="Subject...">
+                </div>
+
+                <div class="field">
+                    <label>كليشة الهجوم</label>
+                    <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
+                    <textarea id="msg" rows="5" placeholder="الصق كليشتك هنا..."></textarea>
+                </div>
+
+                <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
+                <a href="https://t.me/Tydj7_" class="btn-dev">تواصل مع القائد أوس 🐲</a>
+            </div>
+        </div>
+
+        <!-- صفحة هجوم السلسلة (الأسماء الوهمية) -->
+        <div id="attacks" class="page">
+            <div class="main-card">
+                <h3 style="color:var(--fire); margin-top:0;">سجل العمليات ⛓️</h3>
+                <div id="attackLogs"></div>
+            </div>
+        </div>
+
+        <!-- صفحة قائمة الشرف (تعديل الأسامي والنجوم) -->
+        <div id="honor" class="page">
+            <div class="main-card">
+                <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
+                <div class="honor-grid">
+                    <div class="honor-card"><h4>أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
+                    <div class="honor-card"><h4>دانتي 🔥</h4><div class="star-badge">12 نجمة 🌟</div></div>
+                    <div class="honor-card"><h4>الرعب الاسود 💀</h4><div class="star-badge">12 نجمة 🌟</div></div>
+                    <div class="honor-card"><h4>F16 ✈️</h4><div class="star-badge">10 نجمة 🌟</div></div>
+                    <div class="honor-card" style="grid-column: span 2;"><h4>زويرجات 🛡️</h4><div class="star-badge">5 نجوم 🌟</div></div>
+                </div>
             </div>
         </div>
     </div>
 
-</div>
+    <script>
+        // نظام المطر/الشرارات
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+        let sparks = [];
+        function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
+        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
 
-<footer>قوة التارغاريان بين يديك..</footer>
-
-<script>
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        document.getElementById('btn-' + pageId).classList.add('active');
-        if(pageId === 'attacks') generateAttackLogs();
-    }
-
-    const dragonUsers = [
-        "أوسُ اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16_STRIKE", "زوُِيرٍجٍات",
-        "父 FATHER 父", "DARK_AWS", "الُِمُِهـيَبَ", "GHOST_STRIKE", "سيفُُ اإلُِإسلُِامُِ", "V_I_P_O_S",
-        "الُِأسدِ اإلُِعٍرٍاقٌي", "K-I-N-G", "D_R_A_G_O_N", "مُِستحٍيلُِ", "A_W_S_B_O_Y"
-    ];
-
-    const targetGroups = [
-        "الملوك 👑", "تجمع الابطال", "ساحة الحرب", "عالم وينترفيلد", "ملوك التليجرام", 
-        "كتيبة الموت", "نظام الرعب", "تحالف التارغاريان", "قصر النار", "عرش التنين"
-    ];
-
-    function generateAttackLogs() {
-        const container = document.getElementById('attackLogs');
-        container.innerHTML = '';
-        
-        // توليد 10 هجمات وهمية متنوعة
-        for(let i=0; i<10; i++) {
-            const user = dragonUsers[Math.floor(Math.random() * dragonUsers.length)];
-            const group = targetGroups[Math.floor(Math.random() * targetGroups.length)];
-            const log = document.createElement('div');
-            log.className = 'attack-log';
-            log.innerHTML = `
-                <span class="log-user">👤 المهاجم: ${user}</span>
-                <span class="log-target">🎯 الهدف: تم سحق [ ${group} ] بنجاح</span>
-            `;
-            container.appendChild(log);
+        // التبديل بين الصفحات
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('btn-' + pageId).classList.add('active');
+            if(pageId === 'attacks') generateAttackLogs();
         }
-    }
 
-    setInterval(generateAttackLogs, 300000); // تحديث كل 5 دقائق
+        // لصق الكليشة
+        async function pasteKlisha() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('msg').value = text;
+                localStorage.setItem('msg', text);
+                showStatus("✅ تم لصق النص");
+            } catch (err) { showStatus("❌ فشل اللصق"); }
+        }
 
-    window.onload = () => {
-        document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
-        generateAttackLogs();
-    };
+        function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
-    function send() {
-        let count = parseInt(localStorage.getItem("strike_count") || 0) + 1;
-        localStorage.setItem("strike_count", count);
-        document.getElementById("countDisplay").innerText = count;
+        // توليد الهجمات الوهمية (الملوك وأسماء مزخرفة)
+        const fakeUsers = ["أوسُ اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16", "زوُِيرٍجٍات", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
+        const fakeGroups = ["الملوك 👑", "تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
 
-        const sub = document.getElementById("sub").value;
-        const msg = document.getElementById("msg").value;
-        const mailto = `mailto:abuse@telegram.org?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(msg)}`;
-        window.location.href = mailto;
-    }
-</script>
+        function generateAttackLogs() {
+            const container = document.getElementById('attackLogs');
+            container.innerHTML = '';
+            for(let i=0; i<8; i++) {
+                const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+                const group = fakeGroups[Math.floor(Math.random() * fakeGroups.length)];
+                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${user}</span><span class="log-target">🎯 تم سحق [ ${group} ] بنجاح</span></div>`;
+            }
+        }
 
+        // الإرسال والعداد
+        window.onload = () => {
+            initSparks(); drawSparks();
+            document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
+            ['sub', 'msg'].forEach(id => {
+                const saved = localStorage.getItem(id);
+                if (saved) document.getElementById(id).value = saved;
+                document.getElementById(id).oninput = () => localStorage.setItem(id, document.getElementById(id).value);
+            });
+        };
+
+        function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
+
+        function send() {
+            let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
+            localStorage.setItem("strike_count", strikes);
+            document.getElementById("countDisplay").innerText = strikes;
+            
+            const targetMail = "abuse@telegram.org";
+            const subjectText = document.getElementById("sub").value.trim();
+            const bodyText = document.getElementById("msg").value;
+
+            showStatus("🔥 دراكاريس! جاري الإرسال..");
+            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            
+            const newWin = window.open(mailtoLink, '_blank');
+            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
+                window.location.href = mailtoLink;
+            }
+        }
+    </script>
 </body>
 </html>
