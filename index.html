@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AWS SYSTEM | DIRECT STRIKE 🐲</title>
+    <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -37,7 +37,7 @@
         }
         .paste-btn { position: absolute; left: 10px; top: 38px; background: var(--gold); color: black; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 5; cursor: pointer; }
         .btn-go { background: linear-gradient(45deg, #8b0000, #ff3131); color: white; padding: 20px; border: none; border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; font-size: 24px; margin-top: 10px; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); }
-        #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 25px var(--fire); width: 80%; text-align: center; }
+        #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 25px var(--fire); width: 90%; text-align: center; font-size: 14px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 15px; border-radius: 12px; width: 100%; margin-top: 25px; font-size: 15px; text-decoration: none; display: inline-block; box-sizing: border-box; text-align: center; font-weight: bold; }
         .rights { margin-top: 30px; font-size: 13px; color: #777; }
     </style>
@@ -47,7 +47,7 @@
     <canvas id="rainCanvas"></canvas>
     <div class="main-card">
         <h1>AWS <span>SYSTEM</span></h1>
-        <div class="sub-title">PREMIUM MOBILE STRIKE 🐲</div>
+        <div class="sub-title">DRACARYS PROTOCOL 🐲</div>
         
         <div class="strike-display">
             <div style="font-size: 12px; color: #a0a0a0;">إجمالي ضربات التنين</div>
@@ -56,13 +56,13 @@
         </div>
 
         <div class="field">
-            <label>هدف الهجوم الافتراضي</label>
-            <input type="email" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); border-color: var(--gold);">
+            <label>هدف الهجوم</label>
+            <input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); border-color: var(--gold); text-align: center; font-weight: bold; letter-spacing: 1px;">
         </div>
 
         <div class="field">
             <label>موضوع الضربة</label>
-            <input type="text" id="sub" placeholder="اكتب الموضوع...">
+            <input type="text" id="sub" placeholder="اكتب الموضضضوع هنا...">
         </div>
 
         <div class="field">
@@ -81,22 +81,24 @@
     </div>
 
     <script>
+        // تأثير الجزيئات المتساقطة
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
         function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
         function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
         
+        // وظيفة اللصق الذكي
         async function pasteKlisha() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('msg').value = text;
                 localStorage.setItem('msg', text);
-                showStatus("تم اللصق! ✅");
-            } catch (err) { showStatus("يرجى منح إذن الحافظة ❌"); }
+                showStatus("✅ تم لصق النص من الحافظة");
+            } catch (err) { showStatus("❌ يرجى منح إذن الحافظة للمتصفح"); }
         }
 
-        function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 2500); }
+        function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
         window.onload = () => {
             initSparks(); drawSparks();
@@ -108,24 +110,34 @@
             document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
         };
 
-        function resetCounter() { if(confirm("تصفير؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
+        function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
 
+        // وظيفة الإرسال التي تجبر تعبئة خانة "إلى"
         function send() {
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
             
-            showStatus("🔥 جاري فتح البريد..");
-            
-            const targetMail = "abuse@telegram.org";
+            const targetMail = "abuse@telegram.org"; // البريد بدون فراغات
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
-            
-            const finalLink = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
-            
+
+            showStatus("🔥 جاري توجيه الضربة إلى " + targetMail);
+
+            // الطريقة الأدق تقنياً لضمان تعبئة المستلم (To)
+            // نستخدم mailto:EMAIL مباشرة قبل أي معاملات أخرى
+            const mailtoLink = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+
+            // محاكاة نقرة حقيقية عبر عنصر A مخفي لضمان استجابة النظام
             const anchor = document.createElement('a');
-            anchor.href = finalLink;
-            anchor.click();
+            anchor.href = mailtoLink;
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
+            
+            setTimeout(() => {
+                anchor.click();
+                document.body.removeChild(anchor);
+            }, 500);
         }
     </script>
 </body>
