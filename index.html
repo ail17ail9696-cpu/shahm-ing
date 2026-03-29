@@ -2,164 +2,197 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHAHM ING PRO | @ShahmZone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AWS SYSTEM | MOBILE EDITION 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* تعريف الألوان لكل ثيم */
-        :root { --neon: #00f2ff; --gold: #ffcc00; --bg: #05060a; --red: #ff4b2b; --card-bg: rgba(10, 12, 18, 0.95); }
-        body.theme-toxic { --neon: #39ff14; --gold: #ccff00; --bg: #020500; }
-        body.theme-ember { --neon: #ff3131; --gold: #ff9100; --bg: #050000; }
-        body.theme-matte { --neon: #555; --gold: #aaa; --bg: #000; --card-bg: rgba(5,5,5,0.98); }
-        body.theme-deep { --neon: #bc13fe; --gold: #fff; --bg: #0a000f; }
+        :root { 
+            --fire: #ff3131; 
+            --gold: #d4af37; 
+            --bg: #0a0a0a; 
+            --card-bg: rgba(15, 15, 15, 0.98);
+            --dragon-glow: rgba(255, 49, 49, 0.3);
+        }
 
         body { 
             background: var(--bg); color: white; font-family: 'Cairo', sans-serif; 
-            margin: 0; display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; overflow-y: auto; overflow-x: hidden; transition: 0.5s; 
-            padding: 40px 0; 
+            margin: 0; display: flex; align-items: flex-start; justify-content: center; 
+            min-height: 100vh; overflow-x: hidden; 
+            padding: 15px; box-sizing: border-box;
+            background-image: radial-gradient(circle at center, #1a0505 0%, #0a0a0a 100%);
         }
         
         #rainCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         .main-card { 
-            background: var(--card-bg); padding: 25px; border-radius: 25px; 
-            width: 90%; max-width: 400px; border: 1px solid var(--neon); 
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.1); text-align: center; 
-            backdrop-filter: blur(10px); position: relative; transition: 0.3s;
-            margin: auto;
+            background: var(--card-bg); padding: 25px; border-radius: 20px; 
+            width: 100%; max-width: 450px; 
+            border: 2px solid #2a0000;
+            box-shadow: 0 0 40px var(--dragon-glow); 
+            text-align: center; backdrop-filter: blur(15px); 
+            position: relative; border-top: 4px solid var(--fire);
+            margin-top: 10px;
         }
         
-        .pulse-hit { animation: pulse 0.4s ease-out; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0px var(--red); } 50% { box-shadow: 0 0 50px var(--red); border-color: var(--red); } 100% { box-shadow: 0 0 0px var(--red); } }
+        /* تأثير الضربة عند اللمس */
+        .pulse-hit { animation: dracarys-blast 0.5s ease-out; }
+        @keyframes dracarys-blast { 
+            0% { transform: scale(1); box-shadow: 0 0 0px var(--fire); } 
+            50% { transform: scale(1.03); box-shadow: 0 0 60px var(--fire); } 
+            100% { transform: scale(1); } 
+        }
 
-        h1 { font-size: 32px; font-weight: 900; margin: 0; color: white; }
-        h1 span { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
-        .sub-title { color: var(--neon); font-size: 9px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.8; }
+        h1 { font-size: 30px; font-weight: 900; margin: 0; color: white; }
+        h1 span { color: var(--fire); text-shadow: 0 0 15px var(--fire); }
+        .sub-title { color: var(--gold); font-size: 10px; letter-spacing: 3px; margin-bottom: 20px; font-weight: bold; }
         
-        .strike-display { background: rgba(0, 242, 255, 0.05); border: 1px dashed var(--neon); padding: 12px; border-radius: 15px; margin-bottom: 15px; }
-        .strike-count { font-size: 26px; font-weight: 900; color: var(--gold); }
+        .strike-display { 
+            background: rgba(255, 0, 0, 0.08); 
+            border: 1px solid #441111; 
+            padding: 15px; border-radius: 15px; margin-bottom: 20px;
+        }
+        .strike-count { font-size: 35px; font-weight: 900; color: var(--gold); }
 
-        .field { text-align: right; margin-bottom: 12px; position: relative; }
-        label { display: block; font-size: 11px; color: #8899a6; margin-bottom: 4px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 12px; background: #111821; border: 1px solid #2f3336; border-radius: 10px; color: white; outline: none; box-sizing: border-box; font-family: 'Cairo'; }
+        .field { text-align: right; margin-bottom: 18px; position: relative; }
+        label { display: block; font-size: 13px; color: #b0b0b0; margin-bottom: 8px; font-weight: bold; padding-right: 5px; }
         
-        .small-btn { background: transparent; color: var(--neon); border: 1px solid var(--neon); padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; margin-top: 5px; }
-        .copy-btn { position: absolute; left: 8px; top: 32px; background: var(--neon); color: black; border: none; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer; z-index: 2; }
-
-        .btn-go { background: linear-gradient(45deg, var(--neon), #3a7bd5); color: white; padding: 15px; border: none; border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; font-size: 18px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3); }
+        input, textarea { 
+            width: 100%; padding: 16px; background: #1a0f0f; border: 1px solid #3d1a1a; 
+            border-radius: 12px; color: white; outline: none; box-sizing: border-box; 
+            font-size: 16px; /* لمنع الزووم التلقائي في الآيفون */
+            font-family: 'Cairo'; transition: 0.3s;
+        }
+        input:focus { border-color: var(--fire); background: #221111; }
         
-        #statusMsg { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 20px; border-radius: 10px; font-weight: bold; display: none; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .small-btn { 
+            background: rgba(255, 49, 49, 0.1); color: var(--fire); border: 1px solid var(--fire); 
+            padding: 8px 15px; border-radius: 8px; font-size: 12px; cursor: pointer; 
+            margin-top: 10px; font-weight: bold; width: auto;
+        }
 
-        .btn-dev { background: transparent; color: white; border: 1px solid white; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-block; box-sizing: border-box; }
-        .rights { margin-top: 20px; font-size: 11px; color: #55acee; }
+        .copy-btn { 
+            position: absolute; left: 10px; top: 38px; background: var(--gold); 
+            color: black; border: none; padding: 5px 12px; border-radius: 6px; 
+            font-size: 12px; font-weight: bold; z-index: 5;
+        }
+
+        /* زر دراكاريس الضخم للجوال */
+        .btn-go { 
+            background: linear-gradient(45deg, #8b0000, #ff3131); 
+            color: white; padding: 20px; border: none; border-radius: 15px; 
+            cursor: pointer; width: 100%; font-weight: 900; font-size: 24px; 
+            margin-top: 10px; box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-go:active { transform: scale(0.98); opacity: 0.9; }
+        
+        #statusMsg { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            background: var(--fire); color: white; padding: 15px 30px; 
+            border-radius: 50px; font-weight: bold; display: none; z-index: 9999; 
+            box-shadow: 0 0 25px var(--fire); width: 80%; text-align: center;
+        }
+
+        .btn-dev { 
+            background: rgba(212, 175, 55, 0.05); color: var(--gold); 
+            border: 1px solid var(--gold); padding: 15px; border-radius: 12px; 
+            width: 100%; margin-top: 25px; font-size: 15px; text-decoration: none; 
+            display: inline-block; box-sizing: border-box; text-align: center; font-weight: bold;
+        }
+
+        .rights { margin-top: 30px; font-size: 13px; color: #777; line-height: 1.6; }
+        .quote { color: var(--gold); display: block; margin-bottom: 5px; font-style: italic; }
     </style>
 </head>
 <body>
 
-    <div id="statusMsg">تم تجهيز الضربة.. اجهز يا ضحية! ⚡</div>
+    <div id="statusMsg">🔥 دراكاريس! جاري تنفيذ الضربة</div>
     <canvas id="rainCanvas"></canvas>
 
     <div class="main-card" id="card">
-        <div style="text-align: left;">
-            <button class="small-btn" onclick="nextTheme()" id="themeBtn">تبديل الثيم 🎨 (النيون)</button>
-        </div>
-
-        <h1>Aws <span>ING</span></h1>
-        <div class="sub-title">PREMIUM STRIKE SYSTEM</div>
+        <h1>AWS <span>SYSTEM</span></h1>
+        <div class="sub-title">PREMIUM MOBILE STRIKE 🐲</div>
 
         <div class="strike-display">
-            <div style="font-size: 10px; color: #8899a6;">إجمالي الضربات الحالية</div>
+            <div style="font-size: 12px; color: #a0a0a0;">إجمالي ضربات التنين الحالية</div>
             <div class="strike-count" id="countDisplay">0</div>
-            <button class="small-btn" style="color:var(--red); border-color:var(--red)" onclick="resetCounter()">تصفير 🔄</button>
+            <button class="small-btn" style="border-color:#444; color:#888; padding: 5px 10px;" onclick="resetCounter()">تصفير سجلاتك 🔄</button>
         </div>
 
         <div class="field">
-            <label>بريد الدعم</label>
+            <label>بريد الدعم المستهدف</label>
             <input type="email" id="target" placeholder="support@telegram.org">
-            <button class="small-btn" onclick="setMail('abuse@telegram.org')">استخدام بريد الإساءة ⚠️</button>
+            <button class="small-btn" onclick="setMail('abuse@telegram.org')">⚠️ بريد الإساءة</button>
         </div>
 
         <div class="field">
-            <label>الموضوع</label>
-            <input type="text" id="sub" placeholder="اكتب الموضوع هنا">
+            <label>موضوع الضربة</label>
+            <input type="text" id="sub" placeholder="Subject of strike">
         </div>
 
         <div class="field">
-            <label>الكليشة</label>
+            <label>كليشة الهجوم</label>
             <button class="copy-btn" onclick="copyKlisha()">نسخ 📋</button>
-            <textarea id="msg" rows="4" placeholder="اكتب كليشتك هنا..."></textarea>
+            <textarea id="msg" rows="5" placeholder="ضع كليشتك هنا..."></textarea>
         </div>
 
-        <button class="btn-go" onclick="send()">إطلاق الهجوم ⚡</button>
+        <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
         
-        <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع المطور 👨‍💻</a>
+        <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع القائد أوس 🐲</a>
 
         <div class="rights">
-            حقوق النظام محفوظة لـ <span style="color: var(--gold);">أوس</span>
+            <span class="quote">"النار والدم.. القوة بين يديك"</span>
+            حقوق النظام محفوظة لـ <span style="color: var(--fire);">AWS V30</span>
         </div>
     </div>
 
     <script>
+        // تأثير الشرار الناري المخصص للجوال (أقل عدداً للحفاظ على البطارية وسلاسة الأندرويد)
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
-        let width, height, raindrops = [], tilt = 0;
+        let width, height, sparks = [];
 
-        const themes = [
-            { class: 'default', name: 'النيون' },
-            { class: 'theme-toxic', name: 'الهكر' },
-            { class: 'theme-ember', name: 'الجمرة' },
-            { class: 'theme-matte', name: 'الملكي' },
-            { class: 'theme-deep', name: 'البنفسجي' }
-        ];
-        let currentThemeIdx = 0;
-
-        function nextTheme() {
-            // حذف الثيم القديم من الـ body
-            if (themes[currentThemeIdx].class !== 'default') {
-                document.body.classList.remove(themes[currentThemeIdx].class);
-            }
-            
-            // الانتقال للثيم التالي
-            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-            
-            // إضافة الثيم الجديد
-            if (themes[currentThemeIdx].class !== 'default') {
-                document.body.classList.add(themes[currentThemeIdx].class);
-            }
-            
-            document.getElementById('themeBtn').innerText = `تبديل الثيم 🎨 (${themes[currentThemeIdx].name})`;
-            localStorage.setItem('savedTheme', currentThemeIdx);
-        }
-
-        function initRain() {
+        function initSparks() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            raindrops = [];
-            for (let i = 0; i < 80; i++) raindrops.push({ x: Math.random() * width, y: Math.random() * height, len: Math.random() * 20 + 10, speed: Math.random() * 5 + 3 });
+            sparks = [];
+            for (let i = 0; i < 40; i++) {
+                sparks.push({ 
+                    x: Math.random() * width, 
+                    y: Math.random() * height, 
+                    size: Math.random() * 2 + 1, 
+                    speed: Math.random() * 3 + 1,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
         }
 
-        function drawRain() {
+        function drawSparks() {
             ctx.clearRect(0, 0, width, height);
-            // سطر السحر: يقرأ لون النيون الحالي من الـ CSS ويطبقه على المطر
-            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--neon').trim();
-            ctx.lineWidth = 1;
-            raindrops.forEach(p => {
-                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + tilt, p.y + p.len); ctx.stroke();
-                p.y += p.speed; p.x += tilt * 0.1;
-                if (p.y > height) { p.y = -p.len; p.x = Math.random() * width; }
+            sparks.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`;
+                ctx.fill();
+                p.y += p.speed;
+                if (p.y > height) { p.y = -10; p.x = Math.random() * width; }
             });
-            requestAnimationFrame(drawRain);
+            requestAnimationFrame(drawSparks);
         }
 
-        window.addEventListener('deviceorientation', (e) => { tilt = (e.gamma || 0) * 0.6; });
-        window.addEventListener('resize', initRain);
+        window.addEventListener('resize', initSparks);
 
-        function setMail(m) { document.getElementById('target').value = m; localStorage.setItem('target', m); }
+        function setMail(m) { 
+            document.getElementById('target').value = m; 
+            localStorage.setItem('target', m); 
+            showStatus("تم تحديد الهدف بنجاح 🎯");
+        }
         
         function copyKlisha() {
             const txt = document.getElementById('msg');
+            if(!txt.value) return;
             txt.select();
+            txt.setSelectionRange(0, 99999); /* للموبايل */
             document.execCommand('copy');
             showStatus("تم نسخ الكليشة! ✅");
         }
@@ -170,17 +203,9 @@
             setTimeout(() => m.style.display = 'none', 2500);
         }
 
-        const ids = ['target', 'sub', 'msg'];
         window.onload = () => {
-            initRain(); drawRain();
-            const saved = localStorage.getItem('savedTheme');
-            if (saved !== null) {
-                currentThemeIdx = parseInt(saved);
-                if (themes[currentThemeIdx].class !== 'default') {
-                    document.body.classList.add(themes[currentThemeIdx].class);
-                }
-                document.getElementById('themeBtn').innerText = `تبديل الثيم 🎨 (${themes[currentThemeIdx].name})`;
-            }
+            initSparks(); drawSparks();
+            const ids = ['target', 'sub', 'msg'];
             ids.forEach(id => {
                 document.getElementById(id).value = localStorage.getItem(id) || "";
                 document.getElementById(id).oninput = () => localStorage.setItem(id, document.getElementById(id).value);
@@ -188,21 +213,33 @@
             document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
         };
 
-        function resetCounter() { if(confirm("تصفير العداد؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
+        function resetCounter() { 
+            if(confirm("هل تريد تصفير سجل الضربات؟")) { 
+                localStorage.setItem("strike_count", 0); 
+                document.getElementById("countDisplay").innerText = 0; 
+            } 
+        }
 
         function send() {
             const card = document.getElementById('card');
             card.classList.add('pulse-hit');
-            setTimeout(() => card.classList.remove('pulse-hit'), 400);
+            setTimeout(() => card.classList.remove('pulse-hit'), 500);
+            
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
-            showStatus("تم تجهيز الضربة.. اجهز يا ضحية! ⚡");
+            
+            showStatus("🔥 DRACARYS.. جاري الهجوم");
+            
             const t = document.getElementById("target").value || "support@telegram.org";
-            const s = document.getElementById("sub").value || "Support";
+            const s = document.getElementById("sub").value || "Strike Report";
             const m = document.getElementById("msg").value;
-            setTimeout(() => { window.location.href = `mailto:${t}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(m)}`; }, 800);
+            
+            setTimeout(() => { 
+                window.location.href = `mailto:${t}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(m)}`; 
+            }, 800);
         }
     </script>
 </body>
 </html>
+
