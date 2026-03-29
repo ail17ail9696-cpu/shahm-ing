@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -135,7 +138,7 @@
             <div class="main-card">
                 <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
                 <div class="honor-grid">
-                    <div class="honor-card"><h4>المطور أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
+                    <div class="honor-card"><h4>أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>دانتي 🔥</h4><div class="star-badge">12 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>الرعب الاسود 💀</h4><div class="star-badge">12 نجمة 🌟</div></div>
                     <div class="honor-card"><h4>F16 ✈️</h4><div class="star-badge">10 نجمة 🌟</div></div>
@@ -149,7 +152,7 @@
         // حماية الكود - قفل الدومين ومنع الاختصارات
         document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; };
         
-        const _v1 = "QVdTMjAyNg=="; // الرمز AWS2026 مشفر
+        const _v1 = "QVdTMjAyNg=="; 
 
         function v_check() {
             const i = document.getElementById('passInput').value;
@@ -188,20 +191,21 @@
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
+        const fakeUsers = ["أوسُ اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16", "زوُِيرٍجٍات", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
+        const fakeGroups = ["الملوك 👑", "تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
+
         function generateAttackLogs() {
-            const users = [" اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ","king-16", "فهدVTV", "AWS_WARRIOR"];
-            const groups = ["تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
             const container = document.getElementById('attackLogs');
             container.innerHTML = '';
             for(let i=0; i<8; i++) {
-                const u = users[Math.floor(Math.random() * users.length)];
-                const g = groups[Math.floor(Math.random() * groups.length)];
-                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${u}</span><span class="log-target">🎯 يتم ضرب [ ${g} ] بنجاح</span></div>`;
+                const u = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+                const g = fakeGroups[Math.floor(Math.random() * fakeGroups.length)];
+                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${u}</span><span class="log-target">🎯 تم سحق [ ${g} ] بنجاح</span></div>`;
             }
         }
 
         window.onload = () => {
-            // التحقق من الملكية الأصلية (إبدال الرابط برابط الجيت هاب الخاص بك)
+            // حماية الدومين (تأكد من الرابط الخاص بك)
             if (window.location.hostname !== "ail17ail9696-cpu.github.io" && window.location.hostname !== "localhost") { window.location.href = "https://t.me/Tydj7"; }
 
             if(localStorage.getItem('aws_dragon_v') === 'true') {
@@ -220,15 +224,25 @@
 
         function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
 
+        // قلب الإرسال الجديد المطور
         function send() {
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
+            
             const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
+
             showStatus("🔥 دراكاريس! جاري الإرسال..");
-            window.location.href = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            
+            // نظام التعبئة To! المطور
+            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            
+            const newWin = window.open(mailtoLink, '_blank');
+            if(!newWin || newWin.closed || typeof newWin.closed=='undefined') {
+                window.location.href = mailtoLink;
+            }
         }
     </script>
 </body>
