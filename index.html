@@ -175,7 +175,7 @@
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
         // توليد الهجمات الوهمية (الملوك وأسماء مزخرفة)
-        const fakeUsers = ["أوسُ اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ", "F-16", "زوُِيرٍجٍات", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
+        const fakeUsers = [" اإلُِحٍٍڪيمُِ", "دانتيُ الُِمُِدِمرٍ", "الُِرٍعٍبَ اإلُِأسوُِدِ","king-16", "فهدVTV", "الملكُ القادم", "سلطان الهجوم", "فارس الظلام", "AWS_WARRIOR"];
         const fakeGroups = ["الملوك 👑", "تجمع الابطال", "ساحة الحرب", "كتيبة الموت", "نظام الرعب", "تحالف النار"];
 
         function generateAttackLogs() {
@@ -184,7 +184,7 @@
             for(let i=0; i<8; i++) {
                 const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
                 const group = fakeGroups[Math.floor(Math.random() * fakeGroups.length)];
-                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${user}</span><span class="log-target">🎯 تم سحق [ ${group} ] بنجاح</span></div>`;
+                container.innerHTML += `<div class="attack-log"><span class="log-user">👤 ${user}</span><span class="log-target">🎯يتم الارسال  [ ${group} ] بنجاح</span></div>`;
             }
         }
 
