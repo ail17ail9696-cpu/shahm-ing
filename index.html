@@ -57,7 +57,7 @@
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
 
-        #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); animation: slideIn 0.5s ease; }
+        #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); }
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
@@ -70,13 +70,15 @@
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
     <canvas id="rainCanvas"></canvas>
 
-    <header><h1>AWS <span>𝐅𝟏𝟔<span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
+    <header><h1>AWS <span>𝐅𝟏𝟔</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
 
     <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
         <button onclick="showPage('attacks')" id="btn-attacks">سجل العمليات</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
         <button onclick="window.location.href='https://t.me/Tydj7'">دعم النجوم</button>
+    </nav>
+
     <div class="container">
         <div id="home" class="page active">
             <div class="main-card">
@@ -122,7 +124,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <script>
-        // إعدادات قاعدة البيانات
         const firebaseConfig = {
             apiKey: "AIzaSyCuYXrQzb3lttaLMSq89aeDKu2qkNC5d_Y",
             authDomain: "aws-systeming.firebaseapp.com",
@@ -135,16 +136,14 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // نظام الرتب
         function getRank(count) {
             if (count >= 100) return "ملك الابلاغات 👑";
             if (count >= 50) return "محارب أسطوري 🔥";
             if (count >= 20) return "قائد الحرس ⚔️";
-            if (count >= 10) return "مقاتل  🛡️";
+            if (count >= 10) return "مقاتل 🛡️";
             return "جندي مستجد 🛡️";
         }
 
-        // تحديث البيانات العالمية والمباشرة
         database.ref('global_strikes').on('value', (snap) => { document.getElementById('globalCount').innerText = snap.val() || 0; });
 
         database.ref('attacks').limitToLast(1).on('child_added', (snapshot) => {
@@ -158,14 +157,14 @@
         database.ref('attacks').limitToLast(15).on('value', (snapshot) => {
             const container = document.getElementById('attackLogs');
             if (!container) return;
-            container.innerHTML = '';
+            let html = '';
             snapshot.forEach((child) => {
                 const data = child.val();
-                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target"> ⚔️ يشن هجوماً ساحقاً [${data.time}]</span></div>` + container.innerHTML;
+                html = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target"> ⚔️ يشن هجوماً ساحقاً [${data.time}]</span></div>` + html;
             });
+            container.innerHTML = html;
         });
 
-        // دالة الإرسال (MAILTO) المتوافقة مع تليجرام
         function send() {
             let user = localStorage.getItem("dragon_name");
             if (!user) {
@@ -188,12 +187,10 @@
             const bodyText = document.getElementById("msg").value;
             showStatus("🔥 دراكاريس! جاري الإرسال..");
             
-            // الرابط الذي يضمن تعبئة الحقول في متصفح تليجرام
-            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            const mailtoLink = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
             window.location.href = mailtoLink;
         }
 
-        // تحديث قائمة الشرف (Leaderboard)
         function updateHonorBoard() {
             database.ref('attacks').on('value', (snapshot) => {
                 const honorGrid = document.getElementById('honorGrid');
@@ -214,11 +211,9 @@
                             <div style="color:var(--fire); font-weight:900; font-size:18px;">${user.count}</div>
                         </div>`;
                 });
-                if (sortedUsers.length === 0) honorGrid.innerHTML = '<p style="color: #666;"> ⚔️ جاري تحميل ألاساطير ..</p>';
             });
         }
 
-        // تبديل الصفحات
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -230,14 +225,12 @@
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('msg').value = text;
-                localStorage.setItem('msg', text);
                 showStatus("✅ تم لصق النص");
             } catch (err) { showStatus("❌ فشل اللصق"); }
         }
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
-        // تهيئة عند التشغيل
         window.onload = () => {
             updateSmartContent();
             initSparks(); drawSparks();
@@ -245,28 +238,20 @@
             const myStrikes = parseInt(localStorage.getItem("strike_count") || 0);
             document.getElementById("countDisplay").innerText = myStrikes;
             document.getElementById("userRank").innerText = getRank(myStrikes);
-            ['sub', 'msg'].forEach(id => {
-                const saved = localStorage.getItem(id);
-                if (saved) document.getElementById(id).value = saved;
-                document.getElementById(id).oninput = () => localStorage.setItem(id, document.getElementById(id).value);
-            });
         };
 
         function updateSmartContent() {
             const seed = Math.floor(new Date().getMinutes() / 5);
             document.getElementById('onlineUsers').innerText = 13 + (seed * 77 % 50);
-            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه، والحكيم يُعرف بصمته.", "في وقت الشدة تعرف من هم أحبابك.."];
+            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه والحكيم بصمته.", "في وقت الشدة تعرف من هم أحبابك.."];
             document.getElementById('tickerText').innerText = quotes[seed % quotes.length];
         }
-        setInterval(updateSmartContent, 10000);
 
-        // تأثير الشرر في الخلفية
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
         function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
-        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
+        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, 80, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
     </script>
 </body>
 </html>
-
