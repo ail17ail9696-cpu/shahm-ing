@@ -41,7 +41,6 @@
 
         .main-card { background: var(--card-bg); padding: 25px; border-radius: 20px; border: 2px solid #2a0000; box-shadow: 0 0 40px var(--dragon-glow); text-align: center; border-top: 4px solid var(--fire); }
         
-        /* تصميم العدادات المزدوجة */
         .counters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .strike-display { background: rgba(255, 0, 0, 0.08); border: 1px solid #441111; padding: 10px; border-radius: 15px; }
         .strike-count { font-size: 28px; font-weight: 900; color: var(--gold); }
@@ -56,7 +55,6 @@
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
 
-        /* تنبيهات النيوتيفيكيشن */
         #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); animation: slideIn 0.5s ease; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
@@ -66,30 +64,19 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="toast">🔔 هجوم جديد جاري الآن!</div>
-
-    <div class="news-ticker">
-        <div class="news-content" id="tickerText">جارِ تحميل موازين الحكمة...</div>
-    </div>
-
-    <div class="online-count">
-        المقاتلين الآن: <span id="onlineUsers">--</span>
-        <span class="online-dot"></span>
-    </div>
-
+    <div id="toast">🔔 هجوم جديد!</div>
+    <div class="news-ticker"><div class="news-content" id="tickerText">جارِ تحميل موازين الحكمة...</div></div>
+    <div class="online-count">المقاتلين الآن: <span id="onlineUsers">--</span> <span class="online-dot"></span></div>
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
     <canvas id="rainCanvas"></canvas>
 
-    <header>
-        <h1>AWS <span>SYSTEM</span></h1>
-        <div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div>
-    </header>
+    <header><h1>AWS <span>SYSTEM</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
 
     <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
         <button onclick="showPage('attacks')" id="btn-attacks">سجل العمليات</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
-        <button onclick="window.location.href='https://t.me/Tydj7'">دعم النجوم</button>
+        <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
     </nav>
 
     <div class="container">
@@ -97,24 +84,24 @@
             <div class="main-card">
                 <div class="counters-grid">
                     <div class="strike-display">
-                        <div style="font-size: 9px; color: #a0a0a0;">ضرباتي الشخصية</div>
+                        <div style="font-size: 9px; color: #a0a0a0;">ضرباتي</div>
                         <div class="strike-count" id="countDisplay">0</div>
-                        <span class="rank-tag" id="userRank">جندي مستجد 🛡️</span>
+                        <span class="rank-tag" id="userRank">جندي 🛡️</span>
                     </div>
                     <div class="strike-display" style="border-color: var(--gold);">
                         <div style="font-size: 9px; color: #a0a0a0;">الضربات العالمية</div>
                         <div class="strike-count" id="globalCount" style="color: var(--fire);">0</div>
-                        <span class="rank-tag" style="color: var(--gold);">قوة الجيش الكلية 🐉</span>
+                        <span class="rank-tag" style="color: var(--gold);">قوة الجيش 🐉</span>
                     </div>
                 </div>
                 <div class="field"><label>هدف الهجوم</label><input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;"></div>
-                <div class="field"><label>موضوع الضربة</label><input type="text" id="sub" placeholder="Subject..."></div>
+                <div class="field"><label>الموضوع</label><input type="text" id="sub" placeholder="Subject..."></div>
                 <div class="field">
-                    <label>كليشة الهجوم</label>
+                    <label>الكليشة</label>
                     <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
                     <textarea id="msg" rows="5" placeholder="الصق كليشتك هنا..."></textarea>
                 </div>
-                <button class="btn-go" onclick="send()"> دراكاريس 🔥</button>
+                <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
                 <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع المطور أوس 🐲</a>
             </div>
         </div>
@@ -124,12 +111,7 @@
         </div>
 
         <div id="honor" class="page">
-            <div class="main-card">
-                <h3 style="color:var(--gold); margin-top:0;"> أساطير الهجوم🎖️</h3>
-                <div id="honorGrid">
-                   <p style="font-size: 12px; color: #777;">قائمة الشرف تظهر بناءً على النشاط الأخير..</p>
-                </div>
-            </div>
+            <div class="main-card"><h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3><div id="honorGrid"></div></div>
         </div>
     </div>
 
@@ -149,7 +131,6 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // نظام الرتب التلقائي
         function getRank(count) {
             if (count >= 100) return "ملك التنانين 👑";
             if (count >= 50) return "محارب أسطوري 🔥";
@@ -158,10 +139,7 @@
             return "جندي مستجد 🛡️";
         }
 
-        // تحديث العداد العالمي وتنبيهات الهجمات
-        database.ref('global_strikes').on('value', (snap) => {
-            document.getElementById('globalCount').innerText = snap.val() || 0;
-        });
+        database.ref('global_strikes').on('value', (snap) => { document.getElementById('globalCount').innerText = snap.val() || 0; });
 
         database.ref('attacks').limitToLast(1).on('child_added', (snapshot) => {
             const data = snapshot.val();
@@ -177,10 +155,11 @@
             container.innerHTML = '';
             snapshot.forEach((child) => {
                 const data = child.val();
-                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target"> 🔍 شن هجوماً  [${data.time}]</span></div>` + container.innerHTML;
+                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target">🎯 شن هجوماً ساحقاً [${data.time}]</span></div>` + container.innerHTML;
             });
         });
 
+        // --- دالة الإرسال الأصلية التي تعمل في تليجرام ---
         function send() {
             let user = localStorage.getItem("dragon_name");
             if (!user) {
@@ -194,13 +173,19 @@
             document.getElementById("countDisplay").innerText = strikes;
             document.getElementById("userRank").innerText = getRank(strikes);
 
-            // إرسال الهجوم + تحديث العداد العالمي
+            // تسجيل البيانات في Firebase
             const time = new Date().toLocaleTimeString('ar-IQ');
             database.ref('attacks').push({ user: user, time: time });
             database.ref('global_strikes').transaction(current => (current || 0) + 1);
 
+            // كود الإرسال الأصلي المستخرج من ملفك
+            const targetMail = "abuse@telegram.org";
+            const subjectText = document.getElementById("sub").value.trim();
+            const bodyText = document.getElementById("msg").value;
             showStatus("🔥 دراكاريس! جاري الإرسال..");
-            const mailtoLink = `mailto:abuse@telegram.org?subject=${encodeURIComponent(document.getElementById("sub").value)}&body=${encodeURIComponent(document.getElementById("msg").value)}`;
+            
+            // هذا هو التنسيق الذي كان يعمل معك
+            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
             window.location.href = mailtoLink;
         }
 
@@ -235,7 +220,6 @@
             });
         };
 
-        // العدادات الوهمية (المتصلين + الأخبار)
         function updateSmartContent() {
             const seed = Math.floor(new Date().getMinutes() / 5);
             document.getElementById('onlineUsers').innerText = 13 + (seed * 77 % 50);
