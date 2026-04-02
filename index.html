@@ -17,10 +17,12 @@
             user-select: none; -webkit-user-select: none;
         }
 
+        /* شريط الأخبار */
         .news-ticker { background: linear-gradient(90deg, transparent, rgba(255, 49, 49, 0.2), transparent); border-bottom: 1px solid var(--fire); white-space: nowrap; overflow: hidden; padding: 8px 0; position: relative; z-index: 101; }
         .news-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; color: var(--gold); font-size: 13px; font-weight: bold; }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
+        /* عداد المتصلين */
         .online-count { position: fixed; top: 60px; left: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--fire); padding: 5px 12px; border-radius: 20px; font-size: 11px; z-index: 100; box-shadow: 0 0 10px var(--dragon-glow); color: #fff; }
         .online-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-left: 5px; box-shadow: 0 0 5px #00ff00; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
@@ -56,8 +58,6 @@
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
 
         #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); animation: slideIn 0.5s ease; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
@@ -111,7 +111,12 @@
         </div>
 
         <div id="honor" class="page">
-            <div class="main-card"><h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3><div id="honorGrid"></div></div>
+            <div class="main-card">
+                <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
+                <div id="honorGrid">
+                    <p style="color: #666; font-size: 12px;">جاري استدعاء الأساطير...</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -119,6 +124,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <script>
+        // إعدادات قاعدة البيانات
         const firebaseConfig = {
             apiKey: "AIzaSyCuYXrQzb3lttaLMSq89aeDKu2qkNC5d_Y",
             authDomain: "aws-systeming.firebaseapp.com",
@@ -131,6 +137,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        // نظام الرتب
         function getRank(count) {
             if (count >= 100) return "ملك التنانين 👑";
             if (count >= 50) return "محارب أسطوري 🔥";
@@ -139,6 +146,7 @@
             return "جندي مستجد 🛡️";
         }
 
+        // تحديث البيانات العالمية والمباشرة
         database.ref('global_strikes').on('value', (snap) => { document.getElementById('globalCount').innerText = snap.val() || 0; });
 
         database.ref('attacks').limitToLast(1).on('child_added', (snapshot) => {
@@ -159,7 +167,7 @@
             });
         });
 
-        // --- دالة الإرسال الأصلية التي تعمل في تليجرام ---
+        // دالة الإرسال (MAILTO) المتوافقة مع تليجرام
         function send() {
             let user = localStorage.getItem("dragon_name");
             if (!user) {
@@ -173,22 +181,46 @@
             document.getElementById("countDisplay").innerText = strikes;
             document.getElementById("userRank").innerText = getRank(strikes);
 
-            // تسجيل البيانات في Firebase
             const time = new Date().toLocaleTimeString('ar-IQ');
             database.ref('attacks').push({ user: user, time: time });
             database.ref('global_strikes').transaction(current => (current || 0) + 1);
 
-            // كود الإرسال الأصلي المستخرج من ملفك
             const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
             showStatus("🔥 دراكاريس! جاري الإرسال..");
             
-            // هذا هو التنسيق الذي كان يعمل معك
+            // الرابط الذي يضمن تعبئة الحقول في متصفح تليجرام
             const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
             window.location.href = mailtoLink;
         }
 
+        // تحديث قائمة الشرف (Leaderboard)
+        function updateHonorBoard() {
+            database.ref('attacks').on('value', (snapshot) => {
+                const honorGrid = document.getElementById('honorGrid');
+                if (!honorGrid) return;
+                let userStats = {};
+                snapshot.forEach((child) => {
+                    const data = child.val();
+                    if (data.user) userStats[data.user] = (userStats[data.user] || 0) + 1;
+                });
+                let sortedUsers = Object.keys(userStats).map(name => ({ name: name, count: userStats[name] }))
+                    .sort((a, b) => b.count - a.count).slice(0, 10);
+                honorGrid.innerHTML = '';
+                sortedUsers.forEach((user, index) => {
+                    let medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "⚔️";
+                    honorGrid.innerHTML += `
+                        <div class="attack-log" style="border-right: 3px solid var(--gold); display: flex; justify-content: space-between; align-items: center;">
+                            <div><span style="color:var(--gold); font-weight:bold;">${medal} ${user.name}</span><div style="font-size:10px; color:#aaa;">رتبة: ${getRank(user.count)}</div></div>
+                            <div style="color:var(--fire); font-weight:900; font-size:18px;">${user.count}</div>
+                        </div>`;
+                });
+                if (sortedUsers.length === 0) honorGrid.innerHTML = '<p style="color: #666;">لا يوجد أساطير بعد..</p>';
+            });
+        }
+
+        // تبديل الصفحات
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -207,9 +239,11 @@
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
+        // تهيئة عند التشغيل
         window.onload = () => {
             updateSmartContent();
             initSparks(); drawSparks();
+            updateHonorBoard();
             const myStrikes = parseInt(localStorage.getItem("strike_count") || 0);
             document.getElementById("countDisplay").innerText = myStrikes;
             document.getElementById("userRank").innerText = getRank(myStrikes);
@@ -228,6 +262,7 @@
         }
         setInterval(updateSmartContent, 10000);
 
+        // تأثير الشرر في الخلفية
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
