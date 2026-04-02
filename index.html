@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -20,17 +17,11 @@
             user-select: none; -webkit-user-select: none;
         }
 
-        .news-ticker {
-            background: linear-gradient(90deg, transparent, rgba(255, 49, 49, 0.2), transparent);
-            border-bottom: 1px solid var(--fire); white-space: nowrap; overflow: hidden; padding: 8px 0; position: relative; z-index: 101;
-        }
+        .news-ticker { background: linear-gradient(90deg, transparent, rgba(255, 49, 49, 0.2), transparent); border-bottom: 1px solid var(--fire); white-space: nowrap; overflow: hidden; padding: 8px 0; position: relative; z-index: 101; }
         .news-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; color: var(--gold); font-size: 13px; font-weight: bold; }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-        .online-count {
-            position: fixed; top: 60px; left: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--fire);
-            padding: 5px 12px; border-radius: 20px; font-size: 11px; z-index: 100; box-shadow: 0 0 10px var(--dragon-glow); color: #fff;
-        }
+        .online-count { position: fixed; top: 60px; left: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--fire); padding: 5px 12px; border-radius: 20px; font-size: 11px; z-index: 100; box-shadow: 0 0 10px var(--dragon-glow); color: #fff; }
         .online-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-left: 5px; box-shadow: 0 0 5px #00ff00; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
@@ -49,9 +40,13 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .main-card { background: var(--card-bg); padding: 25px; border-radius: 20px; border: 2px solid #2a0000; box-shadow: 0 0 40px var(--dragon-glow); text-align: center; border-top: 4px solid var(--fire); }
-        .strike-display { background: rgba(255, 0, 0, 0.08); border: 1px solid #441111; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .strike-count { font-size: 35px; font-weight: 900; color: var(--gold); }
         
+        /* تصميم العدادات المزدوجة */
+        .counters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .strike-display { background: rgba(255, 0, 0, 0.08); border: 1px solid #441111; padding: 10px; border-radius: 15px; }
+        .strike-count { font-size: 28px; font-weight: 900; color: var(--gold); }
+        .rank-tag { font-size: 10px; color: var(--fire); font-weight: bold; margin-top: 5px; display: block; }
+
         .field { text-align: right; margin-bottom: 18px; position: relative; }
         label { display: block; font-size: 13px; color: #b0b0b0; margin-bottom: 8px; font-weight: bold; }
         input, textarea { width: 100%; padding: 15px; background: #1a0f0f; border: 1px solid #3d1a1a; border-radius: 12px; color: white; outline: none; box-sizing: border-box; font-size: 15px; font-family: 'Cairo'; }
@@ -61,11 +56,17 @@
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
 
+        /* تنبيهات النيوتيفيكيشن */
+        #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); animation: slideIn 0.5s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
 </head>
 <body oncontextmenu="return false;">
+
+    <div id="toast">🔔 هجوم جديد جاري الآن!</div>
 
     <div class="news-ticker">
         <div class="news-content" id="tickerText">جارِ تحميل موازين الحكمة...</div>
@@ -86,18 +87,25 @@
 
     <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
-        <button onclick="showPage('attacks')" id="btn-attacks">هجوم السلسلة</button>
+        <button onclick="showPage('attacks')" id="btn-attacks">سجل العمليات</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
-        <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
+        <button onclick="window.location.href='https://t.me/Tydj7'">دعم النجوم</button>
     </nav>
 
-    <div class="container" id="mainCont">
+    <div class="container">
         <div id="home" class="page active">
             <div class="main-card">
-                <div class="strike-display">
-                    <div style="font-size: 11px; color: #a0a0a0;">إجمالي ضربات التنين</div>
-                    <div class="strike-count" id="countDisplay">0</div>
-                    <button onclick="resetCounter()" style="background:transparent; border:none; color:#555; cursor:pointer; font-size:10px;">تصفير 🔄</button>
+                <div class="counters-grid">
+                    <div class="strike-display">
+                        <div style="font-size: 9px; color: #a0a0a0;">ضرباتي الشخصية</div>
+                        <div class="strike-count" id="countDisplay">0</div>
+                        <span class="rank-tag" id="userRank">جندي مستجد 🛡️</span>
+                    </div>
+                    <div class="strike-display" style="border-color: var(--gold);">
+                        <div style="font-size: 9px; color: #a0a0a0;">الضربات العالمية</div>
+                        <div class="strike-count" id="globalCount" style="color: var(--fire);">0</div>
+                        <span class="rank-tag" style="color: var(--gold);">قوة الجيش الكلية 🐉</span>
+                    </div>
                 </div>
                 <div class="field"><label>هدف الهجوم</label><input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;"></div>
                 <div class="field"><label>موضوع الضربة</label><input type="text" id="sub" placeholder="Subject..."></div>
@@ -106,20 +114,20 @@
                     <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
                     <textarea id="msg" rows="5" placeholder="الصق كليشتك هنا..."></textarea>
                 </div>
-                <button class="btn-go" onclick="send()">دراكاريس 🔥</button>
+                <button class="btn-go" onclick="send()"> دراكاريس 🔥</button>
                 <a href="https://t.me/Tydj7" class="btn-dev">تواصل مع المطور أوس 🐲</a>
             </div>
         </div>
 
         <div id="attacks" class="page">
-            <div class="main-card"><h3 style="color:var(--fire); margin-top:0;">سجل العمليات ⛓️</h3><div id="attackLogs"></div></div>
+            <div class="main-card"><h3 style="color:var(--fire); margin-top:0;">رادار الهجمات المباشر 📡</h3><div id="attackLogs"></div></div>
         </div>
 
         <div id="honor" class="page">
             <div class="main-card">
-                <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
-                <div class="honor-grid" id="honorGrid">
-                    <div class="honor-card"><h4>أوس 👑</h4><div class="star-badge">15 نجمة 🌟</div></div>
+                <h3 style="color:var(--gold); margin-top:0;"> أساطير الهجوم🎖️</h3>
+                <div id="honorGrid">
+                   <p style="font-size: 12px; color: #777;">قائمة الشرف تظهر بناءً على النشاط الأخير..</p>
                 </div>
             </div>
         </div>
@@ -129,7 +137,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
     <script>
-        // 1. إعدادات Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyCuYXrQzb3lttaLMSq89aeDKu2qkNC5d_Y",
             authDomain: "aws-systeming.firebaseapp.com",
@@ -142,27 +149,60 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // نظام منع الاختصارات
-        document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; };
-
-        function updateSmartContent() {
-            const now = new Date();
-            const minutes = now.getMinutes();
-            const hour = now.getHours();
-            const timeIndex = Math.floor(minutes / 5); 
-            let seed = (hour * 12) + timeIndex;
-            let online = 13 + (seed * 777 % 88); 
-            document.getElementById('onlineUsers').innerText = online;
-            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه، والحكيم يُعرف بصمته.", "عداوة العاقل أقل ضرراً من مودة الجاھلِ.", "في وقت الشدة فقط ، تعرف من هم أحبابك ومن هم حثالة اختيارك ..!", "ليرحل من يشاء فالله لا يبعد إلا السيئين.", "أنت ما تفعله ، وليس ما تقول أنك ستفعله"];
-            document.getElementById('tickerText').innerText = quotes[seed % quotes.length];
+        // نظام الرتب التلقائي
+        function getRank(count) {
+            if (count >= 100) return "ملك التنانين 👑";
+            if (count >= 50) return "محارب أسطوري 🔥";
+            if (count >= 20) return "قائد الحرس ⚔️";
+            if (count >= 10) return "مقاتل تارغاريان 🛡️";
+            return "جندي مستجد 🛡️";
         }
-        setInterval(updateSmartContent, 10000); 
 
-        const canvas = document.getElementById('rainCanvas');
-        const ctx = canvas.getContext('2d');
-        let sparks = [];
-        function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
-        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
+        // تحديث العداد العالمي وتنبيهات الهجمات
+        database.ref('global_strikes').on('value', (snap) => {
+            document.getElementById('globalCount').innerText = snap.val() || 0;
+        });
+
+        database.ref('attacks').limitToLast(1).on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            const toast = document.getElementById('toast');
+            toast.innerText = `🔥 هجوم من: ${data.user}`;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        });
+
+        database.ref('attacks').limitToLast(15).on('value', (snapshot) => {
+            const container = document.getElementById('attackLogs');
+            if (!container) return;
+            container.innerHTML = '';
+            snapshot.forEach((child) => {
+                const data = child.val();
+                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target"> 🔍 شن هجوماً  [${data.time}]</span></div>` + container.innerHTML;
+            });
+        });
+
+        function send() {
+            let user = localStorage.getItem("dragon_name");
+            if (!user) {
+                user = prompt("أدخل اسمك القتالي:");
+                if (!user) user = "تنين مجهول";
+                localStorage.setItem("dragon_name", user);
+            }
+
+            let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
+            localStorage.setItem("strike_count", strikes);
+            document.getElementById("countDisplay").innerText = strikes;
+            document.getElementById("userRank").innerText = getRank(strikes);
+
+            // إرسال الهجوم + تحديث العداد العالمي
+            const time = new Date().toLocaleTimeString('ar-IQ');
+            database.ref('attacks').push({ user: user, time: time });
+            database.ref('global_strikes').transaction(current => (current || 0) + 1);
+
+            showStatus("🔥 دراكاريس! جاري الإرسال..");
+            const mailtoLink = `mailto:abuse@telegram.org?subject=${encodeURIComponent(document.getElementById("sub").value)}&body=${encodeURIComponent(document.getElementById("msg").value)}`;
+            window.location.href = mailtoLink;
+        }
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -182,26 +222,12 @@
 
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
-        // --- نظام سجل العمليات الحي ---
-        database.ref('attacks').limitToLast(10).on('value', (snapshot) => {
-            const container = document.getElementById('attackLogs');
-            if (!container) return;
-            container.innerHTML = '';
-            snapshot.forEach((child) => {
-                const data = child.val();
-                container.innerHTML = `
-                    <div class="attack-log">
-                        <span class="log-user">👤 ${data.user}</span>
-                        <span class="log-target">🎯 تم شن هجوم دراكاريس [${data.time}]</span>
-                    </div>` + container.innerHTML;
-            });
-        });
-
         window.onload = () => {
-            if (window.location.hostname !== "ail17ail9696-cpu.github.io" && window.location.hostname !== "localhost") { window.location.href = "https://t.me/Tydj7"; }
             updateSmartContent();
             initSparks(); drawSparks();
-            document.getElementById("countDisplay").innerText = localStorage.getItem("strike_count") || 0;
+            const myStrikes = parseInt(localStorage.getItem("strike_count") || 0);
+            document.getElementById("countDisplay").innerText = myStrikes;
+            document.getElementById("userRank").innerText = getRank(myStrikes);
             ['sub', 'msg'].forEach(id => {
                 const saved = localStorage.getItem(id);
                 if (saved) document.getElementById(id).value = saved;
@@ -209,36 +235,21 @@
             });
         };
 
-        function resetCounter() { if(confirm("تصفير السجلات؟")) { localStorage.setItem("strike_count", 0); document.getElementById("countDisplay").innerText = 0; } }
-
-        function send() {
-            let user = localStorage.getItem("dragon_name");
-            if (!user) {
-                user = prompt("أدخل اسمك القتالي ليظهر في سجل العمليات:");
-                if (!user) user = "تنين مجهول";
-                localStorage.setItem("dragon_name", user);
-            }
-
-            // تسجيل الهجوم في Firebase (لايف)
-            database.ref('attacks').push({
-                user: user,
-                time: new Date().toLocaleTimeString('ar-IQ'),
-                target: "Telegram Support"
-            });
-
-            let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
-            localStorage.setItem("strike_count", strikes);
-            document.getElementById("countDisplay").innerText = strikes;
-
-            const targetMail = "abuse@telegram.org";
-            const subjectText = document.getElementById("sub").value.trim();
-            const bodyText = document.getElementById("msg").value;
-            
-            showStatus("🔥 دراكاريس! جاري الإرسال..");
-            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
-            
-            window.location.href = mailtoLink;
+        // العدادات الوهمية (المتصلين + الأخبار)
+        function updateSmartContent() {
+            const seed = Math.floor(new Date().getMinutes() / 5);
+            document.getElementById('onlineUsers').innerText = 13 + (seed * 77 % 50);
+            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه، والحكيم يُعرف بصمته.", "في وقت الشدة تعرف من هم أحبابك.."];
+            document.getElementById('tickerText').innerText = quotes[seed % quotes.length];
         }
+        setInterval(updateSmartContent, 10000);
+
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+        let sparks = [];
+        function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
+        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
     </script>
 </body>
 </html>
+
