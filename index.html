@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
+    <title>AWS F16 | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -70,13 +70,13 @@
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
     <canvas id="rainCanvas"></canvas>
 
-    <header><h1>AWS <span>SYSTEM</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
+    <header><h1>AWS <span>𝐅𝟏𝟔</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
 
     <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
         <button onclick="showPage('attacks')" id="btn-attacks">سجل العمليات</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
-        <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
+        <button onclick="window.location.href='https://t.me/Tydj7">دعم النجوم</button>
     </nav>
 
     <div class="container">
@@ -91,11 +91,11 @@
                     <div class="strike-display" style="border-color: var(--gold);">
                         <div style="font-size: 9px; color: #a0a0a0;">الضربات العالمية</div>
                         <div class="strike-count" id="globalCount" style="color: var(--fire);">0</div>
-                        <span class="rank-tag" style="color: var(--gold);">قوة الجيش 🐉</span>
+                        <span class="rank-tag" style="color: var(--gold);"> قوة الجيش الكلية 🐉</span>
                     </div>
                 </div>
                 <div class="field"><label>هدف الهجوم</label><input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;"></div>
-                <div class="field"><label>الموضوع</label><input type="text" id="sub" placeholder="Subject..."></div>
+                <div class="field"><label>الموضوع</label><input type="text" id="sub" placeholder="ااكتب العنوان هنا.."></div>
                 <div class="field">
                     <label>الكليشة</label>
                     <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
@@ -112,7 +112,7 @@
 
         <div id="honor" class="page">
             <div class="main-card">
-                <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
+                <h3 style="color:var(--gold); margin-top:0;">أساطير الابلاغات 🎖️</h3>
                 <div id="honorGrid">
                     <p style="color: #666; font-size: 12px;">جاري استدعاء الأساطير...</p>
                 </div>
@@ -150,10 +150,10 @@
         });
 
         function getRank(count) {
-            if (count >= 100) return "ملك التنانين 👑";
+            if (count >= 100) return "ملك الابلاغات 👑";
             if (count >= 50) return "محارب أسطوري 🔥";
             if (count >= 20) return "قائد الحرس ⚔️";
-            if (count >= 10) return "مقاتل تارغاريان 🛡️";
+            if (count >= 10) return "مقاتل  🛡️";
             return "جندي مستجد 🛡️";
         }
 
@@ -173,14 +173,14 @@
             container.innerHTML = '';
             snapshot.forEach((child) => {
                 const data = child.val();
-                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target">🎯 شن هجوماً ساحقاً [${data.time}]</span></div>` + container.innerHTML;
+                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target">⚔️ يتم الهجوم   [${data.time}]</span></div>` + container.innerHTML;
             });
         });
 
         function send() {
             let user = localStorage.getItem("dragon_name");
             if (!user) {
-                user = prompt("أدخل اسمك القتالي:");
+                user = prompt(" أدخل اسمك القتالي لضهوره في القائمة:");
                 if (!user) user = "تنين مجهول";
                 localStorage.setItem("dragon_name", user);
             }
