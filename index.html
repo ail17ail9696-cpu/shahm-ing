@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AWS F16 | THE FINAL DRAGON 🐲</title>
+    <title>AWS SYSTEM | THE FINAL DRAGON 🐲</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -22,7 +22,7 @@
         .news-content { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; color: var(--gold); font-size: 13px; font-weight: bold; }
         @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-        /* عداد المتصلين */
+        /* عداد المتصلين الحقيقي */
         .online-count { position: fixed; top: 60px; left: 15px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--fire); padding: 5px 12px; border-radius: 20px; font-size: 11px; z-index: 100; box-shadow: 0 0 10px var(--dragon-glow); color: #fff; }
         .online-dot { height: 7px; width: 7px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-left: 5px; box-shadow: 0 0 5px #00ff00; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
@@ -57,7 +57,7 @@
         .attack-log { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--fire); text-align: right; }
         .log-user { color: var(--gold); font-weight: bold; font-size: 14px; display: block; }
 
-        #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); }
+        #toast { position: fixed; top: 20px; right: 20px; background: rgba(255, 49, 49, 0.9); color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 1000; display: none; box-shadow: 0 0 15px var(--fire); animation: slideIn 0.5s ease; }
         #statusMsg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--fire); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; display: none; z-index: 9999; box-shadow: 0 0 20px var(--fire); text-align: center; font-size: 13px; }
         .btn-dev { background: rgba(212, 175, 55, 0.05); color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 12px; width: 100%; margin-top: 20px; display: block; text-decoration: none; font-weight: bold; box-sizing: border-box; }
     </style>
@@ -66,17 +66,17 @@
 
     <div id="toast">🔔 هجوم جديد!</div>
     <div class="news-ticker"><div class="news-content" id="tickerText">جارِ تحميل موازين الحكمة...</div></div>
-    <div class="online-count">المقاتلين الآن: <span id="onlineUsers">--</span> <span class="online-dot"></span></div>
+    <div class="online-count">المقاتلين الآن: <span id="onlineUsers">1</span> <span class="online-dot"></span></div>
     <div id="statusMsg">🔥 دراكاريس! جاري الإرسال</div>
     <canvas id="rainCanvas"></canvas>
 
-    <header><h1>AWS <span>𝐅𝟏𝟔</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
+    <header><h1>AWS <span>SYSTEM</span></h1><div style="font-size: 9px; color: var(--gold); letter-spacing: 3px;">DRACARYS PROTOCOL 🐲</div></header>
 
     <nav id="navbar">
         <button onclick="showPage('home')" id="btn-home" class="active">الرئيسية</button>
         <button onclick="showPage('attacks')" id="btn-attacks">سجل العمليات</button>
         <button onclick="showPage('honor')" id="btn-honor">قائمة الشرف</button>
-        <button onclick="window.location.href='https://t.me/Tydj7'">دعم النجوم</button>
+        <button onclick="window.location.href='https://t.me/Tydj7_'">دعم النجوم</button>
     </nav>
 
     <div class="container">
@@ -91,11 +91,11 @@
                     <div class="strike-display" style="border-color: var(--gold);">
                         <div style="font-size: 9px; color: #a0a0a0;">الضربات العالمية</div>
                         <div class="strike-count" id="globalCount" style="color: var(--fire);">0</div>
-                        <span class="rank-tag" style="color: var(--gold);"> القوة الكليه للجميع 🐉</span>
+                        <span class="rank-tag" style="color: var(--gold);">قوة الجيش 🐉</span>
                     </div>
                 </div>
                 <div class="field"><label>هدف الهجوم</label><input type="text" id="target" value="abuse@telegram.org" readonly style="color: var(--gold); text-align: center; font-weight: bold;"></div>
-                <div class="field"><label>الموضوع</label><input type="text" id="sub" placeholder="اكتب الموضوع هنا.."></div>
+                <div class="field"><label>الموضوع</label><input type="text" id="sub" placeholder="Subject..."></div>
                 <div class="field">
                     <label>الكليشة</label>
                     <button class="paste-btn" onclick="pasteKlisha()">لصق 📋</button>
@@ -112,7 +112,7 @@
 
         <div id="honor" class="page">
             <div class="main-card">
-                <h3 style="color:var(--gold); margin-top:0;"> أساطير الابلاغات 🎖️</h3>
+                <h3 style="color:var(--gold); margin-top:0;">أساطير التارغاريان 🎖️</h3>
                 <div id="honorGrid">
                     <p style="color: #666; font-size: 12px;">جاري استدعاء الأساطير...</p>
                 </div>
@@ -136,11 +136,24 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        // --- نظام الحضور الحقيقي ---
+        const connectionsRef = database.ref('.info/connected');
+        const myPresenceRef = database.ref('presence').push();
+        connectionsRef.on('value', (snap) => {
+            if (snap.val() === true) {
+                myPresenceRef.onDisconnect().remove();
+                myPresenceRef.set(true);
+            }
+        });
+        database.ref('presence').on('value', (snap) => {
+            document.getElementById('onlineUsers').innerText = snap.numChildren() || 1;
+        });
+
         function getRank(count) {
-            if (count >= 100) return "ملك الابلاغات 👑";
+            if (count >= 100) return "ملك التنانين 👑";
             if (count >= 50) return "محارب أسطوري 🔥";
             if (count >= 20) return "قائد الحرس ⚔️";
-            if (count >= 10) return "مقاتل 🛡️";
+            if (count >= 10) return "مقاتل تارغاريان 🛡️";
             return "جندي مستجد 🛡️";
         }
 
@@ -157,12 +170,11 @@
         database.ref('attacks').limitToLast(15).on('value', (snapshot) => {
             const container = document.getElementById('attackLogs');
             if (!container) return;
-            let html = '';
+            container.innerHTML = '';
             snapshot.forEach((child) => {
                 const data = child.val();
-                html = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target"> ⚔️ يشن هجوماً ساحقاً [${data.time}]</span></div>` + html;
+                container.innerHTML = `<div class="attack-log"><span class="log-user">👤 ${data.user}</span><span class="log-target">🎯 شن هجوماً ساحقاً [${data.time}]</span></div>` + container.innerHTML;
             });
-            container.innerHTML = html;
         });
 
         function send() {
@@ -172,22 +184,18 @@
                 if (!user) user = "تنين مجهول";
                 localStorage.setItem("dragon_name", user);
             }
-
             let strikes = parseInt(localStorage.getItem("strike_count") || 0) + 1;
             localStorage.setItem("strike_count", strikes);
             document.getElementById("countDisplay").innerText = strikes;
             document.getElementById("userRank").innerText = getRank(strikes);
-
             const time = new Date().toLocaleTimeString('ar-IQ');
             database.ref('attacks').push({ user: user, time: time });
             database.ref('global_strikes').transaction(current => (current || 0) + 1);
-
             const targetMail = "abuse@telegram.org";
             const subjectText = document.getElementById("sub").value.trim();
             const bodyText = document.getElementById("msg").value;
             showStatus("🔥 دراكاريس! جاري الإرسال..");
-            
-            const mailtoLink = "mailto:" + targetMail + "?subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
+            const mailtoLink = "mailto:" + targetMail + "?to=" + targetMail + "&subject=" + encodeURIComponent(subjectText) + "&body=" + encodeURIComponent(bodyText);
             window.location.href = mailtoLink;
         }
 
@@ -205,11 +213,7 @@
                 honorGrid.innerHTML = '';
                 sortedUsers.forEach((user, index) => {
                     let medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "⚔️";
-                    honorGrid.innerHTML += `
-                        <div class="attack-log" style="border-right: 3px solid var(--gold); display: flex; justify-content: space-between; align-items: center;">
-                            <div><span style="color:var(--gold); font-weight:bold;">${medal} ${user.name}</span><div style="font-size:10px; color:#aaa;">رتبة: ${getRank(user.count)}</div></div>
-                            <div style="color:var(--fire); font-weight:900; font-size:18px;">${user.count}</div>
-                        </div>`;
+                    honorGrid.innerHTML += `<div class="attack-log" style="border-right: 3px solid var(--gold); display: flex; justify-content: space-between; align-items: center;"><div><span style="color:var(--gold); font-weight:bold;">${medal} ${user.name}</span><div style="font-size:10px; color:#aaa;">رتبة: ${getRank(user.count)}</div></div><div style="color:var(--fire); font-weight:900; font-size:18px;">${user.count}</div></div>`;
                 });
             });
         }
@@ -225,6 +229,7 @@
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('msg').value = text;
+                localStorage.setItem('msg', text);
                 showStatus("✅ تم لصق النص");
             } catch (err) { showStatus("❌ فشل اللصق"); }
         }
@@ -232,26 +237,30 @@
         function showStatus(text) { const m = document.getElementById('statusMsg'); m.innerText = text; m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 3000); }
 
         window.onload = () => {
-            updateSmartContent();
+            updateSmartTicker();
             initSparks(); drawSparks();
             updateHonorBoard();
             const myStrikes = parseInt(localStorage.getItem("strike_count") || 0);
             document.getElementById("countDisplay").innerText = myStrikes;
             document.getElementById("userRank").innerText = getRank(myStrikes);
+            ['sub', 'msg'].forEach(id => {
+                const saved = localStorage.getItem(id);
+                if (saved) document.getElementById(id).value = saved;
+                document.getElementById(id).oninput = () => localStorage.setItem(id, document.getElementById(id).value);
+            });
         };
 
-        function updateSmartContent() {
-            const seed = Math.floor(new Date().getMinutes() / 5);
-            document.getElementById('onlineUsers').innerText = 13 + (seed * 77 % 50);
-            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه والحكيم بصمته.", "في وقت الشدة تعرف من هم أحبابك.."];
-            document.getElementById('tickerText').innerText = quotes[seed % quotes.length];
+        function updateSmartTicker() {
+            const quotes = ["المواقف الصعبة تبني الأشخاص الأقوياء.", "الجاهل يعرف بكلامه، والحكيم يُعرف بصمته.", "في وقت الشدة تعرف من هم أحبابك.."];
+            document.getElementById('tickerText').innerText = quotes[Math.floor(Math.random() * quotes.length)];
         }
+        setInterval(updateSmartTicker, 30000);
 
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
         let sparks = [];
         function initSparks() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; sparks = []; for (let i = 0; i < 40; i++) { sparks.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 1, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.5 + 0.2 }); } }
-        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, 80, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
+        function drawSparks() { ctx.clearRect(0, 0, canvas.width, canvas.height); sparks.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.opacity})`; ctx.fill(); p.y += p.speed; if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; } }); requestAnimationFrame(drawSparks); }
     </script>
 </body>
 </html>
